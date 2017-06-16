@@ -1,0 +1,8 @@
+review,is_positive,sequence_length
+this is a great movie,1,5
+this is a good movie but isnt the best,1,10
+this is a ok movie,1,5
+this movie sucks,0,3
+this movie sucks but isnt the worst,0,7
+its not that bad,0,4
+

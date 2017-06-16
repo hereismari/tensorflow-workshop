@@ -1,0 +1,6 @@
+wikipedia.csv comes from scraping the three pages:
+https://en.wikipedia.org/wiki/List_of_colors:_A-F
+https://en.wikipedia.org/wiki/List_of_colors:_G-M
+https://en.wikipedia.org/wiki/List_of_colors:_N-Z
+
+tocsv cleans it up outputs it to db.csv
