@@ -50,23 +50,78 @@ tf.app.flags.DEFINE_string('output_dir', '/tmp/mult_gpu3',
                            """Directory where to write event logs """
                            """and checkpoint.""")
 
-tf.app.flags.DEFINE_integer('num_gpus', 8,
+tf.app.flags.DEFINE_integer('num_gpus', 1,
                             """How many GPUs to use.""")
 
 import time
 
-def get_model(features):
-	conv1 = Conv2D(32, (5, 5), activation='relu', input_shape=(28, 28, 1))(features["x"])
-	pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)  
-	
-	conv2 = Conv2D(64, (5, 5), activation='relu')(pool1)
-	pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
+def get_model(features, reuse, mode):
 
-	flat = Flatten()(pool2)
-	dense = Dense(1024, activation='relu')(flat)
+  # Convolutional Layer #1
+  # Computes 32 features using a 5x5 filter with ReLU activation.
+  # Padding is added to preserve width and height.
+  # Input Tensor Shape: [batch_size, 28, 28, 1]
+  # Output Tensor Shape: [batch_size, 28, 28, 32]
+  conv1 = tf.layers.conv2d(
+      inputs=features,
+      filters=32,
+      kernel_size=[5, 5],
+      padding='same',
+      activation=tf.nn.relu,
+      reuse=reuse, name='conv1')
 
-	logits = Dense(10)(dense)
-	return logits
+  # Pooling Layer #1
+  # First max pooling layer with a 2x2 filter and stride of 2
+  # Input Tensor Shape: [batch_size, 28, 28, 32]
+  # Output Tensor Shape: [batch_size, 14, 14, 32]
+  pool1 = tf.layers.max_pooling2d(inputs=conv1,
+                                  pool_size=[2, 2], 
+                                  strides=2)
+
+  # Convolutional Layer #2
+  # Computes 64 features using a 5x5 filter.
+  # Padding is added to preserve width and height.
+  # Input Tensor Shape: [batch_size, 14, 14, 32]
+  # Output Tensor Shape: [batch_size, 14, 14, 64]
+  conv2 = tf.layers.conv2d(
+      inputs=pool1,
+      filters=64,
+      kernel_size=[5, 5],
+      padding='same',
+      activation=tf.nn.relu,
+      reuse=reuse, name='conv2')
+
+  # Pooling Layer #2
+  # Second max pooling layer with a 2x2 filter and stride of 2
+  # Input Tensor Shape: [batch_size, 14, 14, 64]
+  # Output Tensor Shape: [batch_size, 7, 7, 64]
+  pool2 = tf.layers.max_pooling2d(inputs=conv2,
+								  pool_size=[2, 2],
+								  strides=2)
+
+  # Flatten tensor into a batch of vectors
+  # Input Tensor Shape: [batch_size, 7, 7, 64]
+  # Output Tensor Shape: [batch_size, 7 * 7 * 64]
+  pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
+
+  # Dense Layer
+  # Densely connected layer with 1024 neurons
+  # Input Tensor Shape: [batch_size, 7 * 7 * 64]
+  # Output Tensor Shape: [batch_size, 1024]
+  dense = tf.layers.dense(inputs=pool2_flat, units=1024,
+                          activation=tf.nn.relu,
+                          reuse=reuse, name='dense')
+
+  # Add dropout operation; 0.6 probability that element will be kept
+  dropout = tf.layers.dropout(
+      inputs=dense, rate=0.4, training=(mode == learn.ModeKeys.TRAIN))
+
+  # Logits layer
+  # Input Tensor Shape: [batch_size, 1024]
+  # Output Tensor Shape: [batch_size, 10]
+  logits = tf.layers.dense(inputs=dropout, units=10,
+                           reuse=reuse, name='logits')
+  return logits
 		
 def average_gradients(tower_grads):
 	"""Calculate the average gradient for each shared variable across all towers.
@@ -85,7 +140,6 @@ def average_gradients(tower_grads):
 		for g, _ in single_grads:
 			if g is not None:
 				grads.append(g)
-		print(grads)
 		grad = tf.add_n(grads)
 		grad = tf.multiply(grad, 1.0/len(grads))
 		v = single_grads[0][1]
@@ -97,6 +151,8 @@ def tower_loss(targets, logits):
 	cross_entropy = tf.losses.softmax_cross_entropy(onehot_labels=targets, logits=logits)
 	loss = tf.reduce_mean(cross_entropy, name='cross_entropy_mean')
 	return loss
+
+RUN = False
 
 # Define the model, using Keras
 def model_fn(features, targets, mode, params):
@@ -111,38 +167,45 @@ def model_fn(features, targets, mode, params):
 	# This way all towers are using the same graph
 	reuse_variables = False
 
+	features = features["x"]
+	
+	predictions = None
+	average_op = None
+	apply_gradient_op = None
+	eval_metric_ops = None
+	
 	# Calculate the gradients for each model tower.
-	for i in range(FLAGS.num_gpus):
-		with tf.device('/gpu:%d' % i):
-			with tf.variable_scope(tf.get_variable_scope(), reuse=reuse_variables): 
-				logits = get_model(features)
-		  
-			# Calculate the loss for one tower. This function
-			# constructs the entire model but shares the
-			# variables across all towers.
-			loss = tower_loss(targets, logits)
-			
-			# All the towers should use the same variable
-			reuse_variables = True
-			
-			# Storage avarege loss in a tensor
-			average_loss_tensor.append(loss)
-			
-			# Calculate the gradients for the batch of data on this tower
-			grads = opt.compute_gradients(loss)
-			
-			# Keep track of the gradients across all towers
-			tower_grads.append(grads)
+	if mode == learn.ModeKeys.TRAIN:
+		for i in range(FLAGS.num_gpus):
+			with tf.device('/gpu:%d' % i):
+				with tf.variable_scope(tf.get_variable_scope(), reuse=reuse_variables): 
+					logits = get_model(features[i * TOWER_BATCH_SIZE: i * TOWER_BATCH_SIZE + TOWER_BATCH_SIZE], reuse_variables, mode)
+			  
+				# Calculate the loss for one tower. This function
+				# constructs the entire model but shares the
+				# variables across all towers.
+				loss = tower_loss(targets[i * TOWER_BATCH_SIZE: i * TOWER_BATCH_SIZE + TOWER_BATCH_SIZE], logits)
+				
+				# Storage avarege loss in a tensor
+				average_loss_tensor.append(loss)
+				
+				reuse_variables = True
+				
+				# Calculate the gradients for the batch of data on this tower
+				grads = opt.compute_gradients(loss)
+				
+				# Keep track of the gradients across all towers
+				tower_grads.append(grads)
 
-	# We must calculate the mean of each gradient. Note that this is the
-	# synchronization point across all towers.
-	grads = average_gradients(tower_grads)
+		# We must calculate the mean of each gradient. Note that this is the
+		# synchronization point across all towers.
+		grads = average_gradients(tower_grads)
 
-	# Apply the gradients to adjust the shared variables.
-	apply_gradient_op = opt.apply_gradients(grads, global_step=tf.contrib.framework.get_global_step())
+		# Apply the gradients to adjust the shared variables.
+		apply_gradient_op = opt.apply_gradients(grads, global_step=tf.contrib.framework.get_global_step())
 
-	# Loss
-	average_op = tf.reduce_mean(average_loss_tensor)
+		# Loss
+		average_op = tf.reduce_mean(average_loss_tensor)
 
 		
 	#avg_loss = tf.reduce_mean(tower_loss)
@@ -150,17 +213,24 @@ def model_fn(features, targets, mode, params):
 	#                  	                        global_step=tf.contrib.framework.get_global_step(),
 	#                                           learning_rate=params["learning_rate"],
 	#                                           optimizer="SGD")
+	if mode != learn.ModeKeys.TRAIN:
+		
+		logits = get_model(features, reuse_variables, mode)
+		average_op = tower_loss(targets, logits)
+		
+		predictions = {
+			"classes": tf.argmax(input=logits, axis=1),
+			"probabilities": tf.nn.softmax(logits)
+		}
 
-	predictions = {
-		"classes": tf.argmax(input=logits, axis=1),
-		"probabilities": tf.nn.softmax(logits)
-	}
-
-	eval_metric_ops = {
-		"accuracy": tf.metrics.accuracy(tf.argmax(input=logits, axis=1),
-										tf.argmax(input=targets, axis=1))    
-	}
-			 
+		eval_metric_ops = {
+			"accuracy": tf.metrics.accuracy(tf.argmax(input=logits, axis=1),
+											tf.argmax(input=targets, axis=1))    
+		}
+				
+	
+	print([x.name for x in tf.global_variables()])
+	
 	return model_fn_lib.ModelFnOps(mode=mode, predictions=predictions, loss=average_op,
 								   train_op=apply_gradient_op, eval_metric_ops=eval_metric_ops)
 
@@ -169,35 +239,43 @@ def model_fn(features, targets, mode, params):
 # Import the MNIST dataset
 mnist = input_data.read_data_sets("/tmp/MNIST/", one_hot=True)
 
-# using a smaller size to debug input fns
-limit = 1000
-x_train = np.reshape(mnist.train.images, (-1, 28, 28, 1))[:limit]
-y_train = mnist.train.labels[:limit]
-x_test = np.reshape(mnist.test.images, (-1, 28, 28, 1))[:limit]
-y_test = mnist.test.labels[:limit]
+train_df = mnist.train
+test_df = mnist.test
     
 # In[ ]:
 
 # parameters
 LEARNING_RATE = 0.01
-BATCH_SIZE = 128
+BATCH_SIZE = 1024
 STEPS = 10000
+
+TOWER_BATCH_SIZE = int(BATCH_SIZE / FLAGS.num_gpus)
 
 # In[ ]:
 
 # Input functions
+def get_input_fn(df, batch_size, epochs=None):
+  def input_fn():
 
-x_train_dict = {'x': x_train }
+    images, labels = df.next_batch(batch_size)
 
-train_input_fn = numpy_io.numpy_input_fn(
-          x_train_dict, y_train, batch_size=BATCH_SIZE, 
-           shuffle=False, num_epochs=None, 
-            queue_capacity=1000, num_threads=1)
+    images = tf.reshape(images, shape=[-1, 28, 28, 1])
 
-x_test_dict = {'x': x_test }
-	
-test_input_fn = numpy_io.numpy_input_fn(
-          x_test_dict, y_test, batch_size=BATCH_SIZE, shuffle=False, num_epochs=1)
+    batched = tf.train.shuffle_batch({'x': images,
+                                      'y': labels},
+                                     batch_size,
+                                     min_after_dequeue=100,
+                                     num_threads=4,
+                                     capacity=1000,
+                                     enqueue_many=True,
+                                     allow_smaller_final_batch=True)
+    label = batched.pop('y')
+    return batched, label
+  return input_fn
+
+
+train_input_fn = get_input_fn(train_df, BATCH_SIZE)
+test_input_fn = get_input_fn(test_df, BATCH_SIZE)
 
 # In[ ]:
 

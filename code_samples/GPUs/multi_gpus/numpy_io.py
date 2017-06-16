@@ -1,6 +1,3 @@
-# Custom Estimator for MNIST using Keras and an input function.
-# Based on:  * https://github.com/tensorflow/models/blob/master/tutorials/image/cifar10/cifar10_multi_gpu_train.py 
-# And: https://github.com/tfboyd/dlbench/blob/fcn5_updates/tools/tensorflow/fc/fcn5_mnist_multi_gpu.py
 # See also:
 # * https://www.tensorflow.org/extend/estimators
 # * https://www.tensorflow.org/get_started/mnist/beginners
@@ -63,7 +60,7 @@ def get_model(features, reuse, mode):
   # Input Tensor Shape: [batch_size, 28, 28, 1]
   # Output Tensor Shape: [batch_size, 28, 28, 32]
   conv1 = tf.layers.conv2d(
-      inputs=features,
+      inputs=features["x"],
       filters=32,
       kernel_size=[5, 5],
       padding='same',
@@ -152,8 +149,6 @@ def tower_loss(targets, logits):
 	loss = tf.reduce_mean(cross_entropy, name='cross_entropy_mean')
 	return loss
 
-RUN = False
-
 # Define the model, using Keras
 def model_fn(features, targets, mode, params):
 			 
@@ -167,45 +162,38 @@ def model_fn(features, targets, mode, params):
 	# This way all towers are using the same graph
 	reuse_variables = False
 
-	features = features["x"]
-	
-	predictions = None
-	average_op = None
-	apply_gradient_op = None
-	eval_metric_ops = None
-	
 	# Calculate the gradients for each model tower.
-	if mode == learn.ModeKeys.TRAIN:
-		for i in range(FLAGS.num_gpus):
-			with tf.device('/gpu:%d' % i):
-				with tf.variable_scope(tf.get_variable_scope(), reuse=reuse_variables): 
-					logits = get_model(features[i * TOWER_BATCH_SIZE: i * TOWER_BATCH_SIZE + TOWER_BATCH_SIZE], reuse_variables, mode)
-			  
-				# Calculate the loss for one tower. This function
-				# constructs the entire model but shares the
-				# variables across all towers.
-				loss = tower_loss(targets[i * TOWER_BATCH_SIZE: i * TOWER_BATCH_SIZE + TOWER_BATCH_SIZE], logits)
-				
-				# Storage avarege loss in a tensor
-				average_loss_tensor.append(loss)
-				
-				reuse_variables = True
-				
-				# Calculate the gradients for the batch of data on this tower
-				grads = opt.compute_gradients(loss)
-				
-				# Keep track of the gradients across all towers
-				tower_grads.append(grads)
+	for i in range(FLAGS.num_gpus):
+		with tf.device('/gpu:%d' % i):
+			with tf.variable_scope(tf.get_variable_scope(), reuse=reuse_variables): 
+				logits = get_model(features, reuse_variables, mode)
+		  
+			# Calculate the loss for one tower. This function
+			# constructs the entire model but shares the
+			# variables across all towers.
+			loss = tower_loss(targets, logits)
+			
+			# All the towers should use the same variable
+			reuse_variables = True
+			
+			# Storage avarege loss in a tensor
+			average_loss_tensor.append(loss)
+			
+			# Calculate the gradients for the batch of data on this tower
+			grads = opt.compute_gradients(loss)
+			
+			# Keep track of the gradients across all towers
+			tower_grads.append(grads)
 
-		# We must calculate the mean of each gradient. Note that this is the
-		# synchronization point across all towers.
-		grads = average_gradients(tower_grads)
+	# We must calculate the mean of each gradient. Note that this is the
+	# synchronization point across all towers.
+	grads = average_gradients(tower_grads)
 
-		# Apply the gradients to adjust the shared variables.
-		apply_gradient_op = opt.apply_gradients(grads, global_step=tf.contrib.framework.get_global_step())
+	# Apply the gradients to adjust the shared variables.
+	apply_gradient_op = opt.apply_gradients(grads, global_step=tf.contrib.framework.get_global_step())
 
-		# Loss
-		average_op = tf.reduce_mean(average_loss_tensor)
+	# Loss
+	average_op = tf.reduce_mean(average_loss_tensor)
 
 		
 	#avg_loss = tf.reduce_mean(tower_loss)
@@ -213,21 +201,16 @@ def model_fn(features, targets, mode, params):
 	#                  	                        global_step=tf.contrib.framework.get_global_step(),
 	#                                           learning_rate=params["learning_rate"],
 	#                                           optimizer="SGD")
-	if mode != learn.ModeKeys.TRAIN:
-		
-		logits = get_model(features, reuse_variables, mode)
-		average_op = tower_loss(targets, logits)
-		
-		predictions = {
-			"classes": tf.argmax(input=logits, axis=1),
-			"probabilities": tf.nn.softmax(logits)
-		}
 
-		eval_metric_ops = {
-			"accuracy": tf.metrics.accuracy(tf.argmax(input=logits, axis=1),
-											tf.argmax(input=targets, axis=1))    
-		}
-				
+	predictions = {
+		"classes": tf.argmax(input=logits, axis=1),
+		"probabilities": tf.nn.softmax(logits)
+	}
+
+	eval_metric_ops = {
+		"accuracy": tf.metrics.accuracy(tf.argmax(input=logits, axis=1),
+										tf.argmax(input=targets, axis=1))    
+	}
 	
 	print([x.name for x in tf.global_variables()])
 	
@@ -250,10 +233,8 @@ y_test = mnist.test.labels#[:limit]
 
 # parameters
 LEARNING_RATE = 0.01
-BATCH_SIZE = 1024
+BATCH_SIZE = 128
 STEPS = 10000
-
-TOWER_BATCH_SIZE = int(BATCH_SIZE / FLAGS.num_gpus)
 
 # In[ ]:
 
@@ -269,7 +250,7 @@ train_input_fn = numpy_io.numpy_input_fn(
 x_test_dict = {'x': x_test }
 	
 test_input_fn = numpy_io.numpy_input_fn(
-          x_test_dict, y_test, batch_size=BATCH_SIZE, shuffle=False, num_epochs=1)
+          x_test_dict, y_test, batch_size=BATCH_SIZE, shuffle=True, num_epochs=1)
 
 # In[ ]:
 
