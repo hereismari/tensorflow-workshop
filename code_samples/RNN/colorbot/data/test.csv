@@ -1,501 +1,101 @@
 name,red,green,blue
-woodcliff lake,121,111,98
-rose pottery,208,162,159
-jute,220,185,149
-big foot feet,232,142,90
-beau blue,188,212,230
-autumn sage,142,150,124
-porch ceiling,162,178,185
-esmeralda,51,149,130
-oregon,155,71,3
-urobilin,225,173,33
-dogwood rose,215,24,104
-fog mist,227,222,209
-billowy down,238,240,236
-ripe wheat,227,195,149
-sunlit coral,250,222,208
-passion fruit,235,150,138
-formal garden,54,153,75
-neon green,57,255,20
-establish mint,226,237,222
-tinted ice,190,216,230
-corn husk green,207,205,151
-double chocolate,110,79,67
-berry charm,78,68,100
-tower bridge,123,160,161
-strawberry wine,203,105,108
-riverdale,190,197,188
-heavenly song,251,216,199
-demure,234,213,213
-cos cob stonewall,138,141,132
-come sail away,92,146,198
-sparkling wine,238,229,209
-blueberry buckle,139,152,180
-honey bear,222,192,135
-cyprus,0,62,64
-overcast,223,220,200
-reddish grey,153,117,112
-bayard blue,65,76,85
-one to remember,219,189,174
-bluebird,213,227,229
-joanna,245,243,229
-whiskey sour,219,153,94
-country redwood,119,45,36
-moroccan red,169,68,67
-monarch,139,7,35
-gallery buff,192,182,164
-greenish teal,50,191,132
-corvette,250,211,162
-icing rose,244,237,233
-sea mist,197,219,202
-cocoa shell,127,101,88
-yellow rain coat,255,217,104
-haiti,27,16,53
-chatsworth cream,238,230,207
-kilkenny,66,137,87
-blue jean,136,182,204
-mercury,229,229,229
-firebrick,156,85,66
-oklahoma wheat,241,214,173
-roulette,218,97,95
-brass button,146,112,74
-pencil sketch,152,156,159
-palm coast teal,59,170,170
-ice cream parlour,247,211,174
-just a fairytale,107,93,152
-vin rouge,103,58,69
-oceanic teal,136,198,195
-pink begonia,221,156,191
-peach sachet,245,217,202
-vomit yellow,199,193,12
-pennies from heaven,197,120,83
-spring wheat,201,182,148
-ocean breeze,177,218,233
-cranberry splash,143,59,82
-earthnut,157,134,118
-bitter briar,141,115,112
-spun wool,227,221,214
-cream cloak,230,230,211
-sweet apricot,253,192,167
-dark chestnut,152,105,96
-aspiring blue,161,193,193
-russell green,163,172,136
-leap of faith,195,159,85
-killarney,58,106,71
-point beach,235,212,188
-bluey purple,98,65,199
-mint cream,245,255,250
-antique penny,166,124,87
-chilean heath,255,253,230
-easter bonnet,246,228,240
-rainmaster,156,164,171
-red wine,115,46,48
-waterscape,124,151,162
-major blue,67,152,200
-stonybrook,140,149,145
-chic lime,217,223,124
-interesting aqua,155,175,179
-sophisticated teal,83,112,118
-tawny port,101,64,61
-delicate bloom,219,190,208
-vixen,91,64,81
-aloe blossom,202,120,100
-arctic lime,208,255,20
-venetian red,200,8,21
-cloudy sky,144,158,159
-sweet melon,252,217,175
-squash,243,172,82
-mission control,129,130,136
-sea to shining sea,110,181,221
-crestwood tan,241,202,162
-so much fawn,241,223,204
-pensive,190,171,150
-saltpan,241,247,242
-windmill,213,207,182
-startling orange,245,125,28
-chambray,53,78,140
-royal blue,65,105,225
-tile red,117,60,61
-purple rain,92,68,94
-cement,141,118,98
-rose brocade,155,109,110
-metallic green,41,110,1
-portica,249,230,99
-luminary,255,210,172
-black olive,59,60,54
-silent night,177,181,184
-baby pink,244,194,194
-yellow metal,113,99,56
-bramble bush,80,54,41
-mosaic blue,71,99,135
-baritone,82,65,77
-rose accent,231,208,198
-sabal palm,70,103,76
-celery sprig,214,217,169
-gray ashlar,202,185,178
-crimson,160,72,74
-juicy fig,125,108,75
-fire engine red,206,32,41
-tuscany green,85,85,72
-black marlin,62,44,28
-strawberry sorbet,247,183,196
-coconut grove,103,108,67
-liseran purple,222,111,161
-shark,37,39,44
-deep indigo,74,73,77
-metallic blue,50,82,123
-so merlot,132,82,91
-sun ray,255,178,15
-kimberly,115,108,159
-regal blue,1,63,106
-electric lime,142,195,16
-french lime,158,253,56
-victorian purple,190,145,175
-christmas blue,42,143,189
-victorian gold,163,120,53
-spicy mix,139,95,77
-gentle sea,176,200,209
-sedona clay,172,97,79
-french roast,73,65,59
-delano waters,161,215,227
-devonwood taupe,129,110,97
-mixed veggies,113,145,103
-mexican pink,228,0,124
-pillar white,239,233,223
-sunshine on the bay,244,229,157
-light lavendar,239,192,254
-intuitive,179,163,163
-deep taupe,126,94,96
-innocence,237,211,208
-cupcake,116,78,63
-kendall charcoal,104,103,99
-alamosa green,147,154,114
-palermo rose,211,155,157
-majestic mount,123,127,146
-harp strings,242,227,176
-thunderbird,167,204,202
-blueblood,2,72,137
-smokey cream,233,223,215
-dallas,110,75,38
-shrimp toast,237,206,196
-grassy green,65,156,3
-starburst orange,234,96,78
-crushed peony,227,220,218
-golden dunes,198,124,59
-moon valley,248,237,220
-cabbage pont,63,76,58
-champion cobalt,39,73,101
-paradise beach,248,239,220
-daffodil,255,199,107
-arrowtown,148,135,113
-ruskin room green,170,165,126
-tropical turquoise,1,113,109
-bamboo shoot,189,181,148
-rialto,145,77,88
-white corn,244,238,215
-gallery red,146,88,89
-oat flour,246,227,205
-upper west side,176,168,156
-chicago,93,92,88
-bayville blue,114,175,188
-shadow green,154,194,184
-chickadee,253,199,74
-mortar,214,215,209
-silvery blue,192,209,213
-muddy yellow,191,172,5
-wood brown,193,154,107
-citrus blast,255,179,42
-venetian red,114,1,15
-granite green,141,137,116
-desert dusk,172,153,146
-aqua marine,46,232,187
-creme,255,255,182
-barrel brown,104,72,59
-precious stone,49,134,151
-red,255,0,0
-sazerac,255,244,224
-dingley,93,119,71
-spanish viridian,0,127,92
-french raspberry,199,44,72
-classic caramel,184,146,100
-wanderlust,66,99,104
-rumors,116,66,70
-metallic blue,79,115,142
-barcelona beige,196,180,158
-rural green,138,136,76
-light hot pink,255,179,222
-spring bud,167,252,0
-quicksand,175,165,152
-flora,206,213,200
-sea fog,252,255,249
-earth tone,162,109,86
-storm,160,161,159
-passion plum,156,95,120
-canyon cloud,251,243,222
-macaroni and cheese,239,180,53
-carriage red,114,50,41
-dark puce,79,58,60
-forest green,24,75,68
-sizzling sunrise,255,219,0
-rainforest dew,229,217,178
-mossy oak,132,128,121
-ebony,85,93,80
-pumpkin,255,117,24
-steel,115,133,149
-hot purple,72,6,86
-windsor tan,202,187,162
-mysterious mauve,167,163,169
-trinket gold,167,135,96
-lazy lizard,146,148,45
-light cobalt blue,136,172,224
-california lilac,186,197,227
-tornado season,77,113,122
-gainsboro,220,220,220
-herbal escape,175,171,155
-watercourse,5,111,87
-light mint,182,255,187
-jadite,94,132,110
-green charm,231,221,168
-knotweed,127,123,101
-seagull gray,217,217,212
-limelight,226,229,102
-meditation,172,164,141
-medium taupe,103,76,71
-airy green,219,224,197
-golden nugget,255,184,1
-candy apple red,255,8,0
-groundcover,99,97,76
-kyoto pearl,223,213,211
-potters wheel,175,104,95
-chocolate truffle,121,83,64
-highland breeze,165,213,237
-surfer,111,183,186
-scallion,102,118,89
-lapland,181,175,143
-amber,255,191,0
-sensual peach,254,209,183
-foam,216,252,250
-pale turquoise,165,251,213
-flora,164,173,159
-spring green,0,255,127
-manor blue,173,184,193
-celestia blue,209,214,228
-luscious lime,174,155,52
-pink amour,244,226,236
-sea fern,92,100,72
-wythe rose,193,143,128
-warm earth,146,78,79
-halation,209,209,208
-dark pastel purple,150,111,214
-smoky topaz,147,61,65
-virtuoso,93,85,88
-molasses,136,101,78
-intellectual gray,170,163,148
-livid brown,77,40,46
-sonic blue,92,168,186
-baby yellow,254,239,212
-barista,89,67,59
-clay beige,218,208,188
-vintage claret,147,79,107
-plum martini,65,61,64
-yellow freeze,252,248,222
-parisian taupe,222,210,197
-brownish purple,118,66,78
-elite wisteria,152,126,170
-perfect peach,252,208,180
-eon,211,211,203
-light salmon pink,255,153,153
-green mist,203,211,176
-french tarragon,101,112,84
-soar,220,240,243
-hot and spicy,179,85,72
-twilight blue,238,253,255
-wild geranium,223,186,203
-riverway,96,116,119
-lead gray,68,79,83
-golden meadow,175,127,71
-loulou,70,11,65
-spearmint frosting,141,194,170
-aria ivory,248,232,217
-tropical sand,240,227,222
-toasted pecan,163,111,88
-hydrangea flowers,241,145,142
-majestic purple,96,91,140
-pale lavender,238,207,254
-hidden meadow,187,204,89
-olive brown,100,84,3
-adriatic sea,0,86,133
-burnt crimson,101,0,11
-dark blue green,0,82,73
-bronze,63,33,9
-constant coral,207,144,126
-splendor,243,222,205
-irish moss,53,127,81
-soft marigold,241,187,120
-tango pink,228,113,122
-coral pink,255,97,99
-starfruit,228,208,133
-charcoal,52,56,55
-kitty gray,101,108,105
-del ray peach,243,193,167
-rosedust,207,144,133
-dill,118,146,98
-santa barbara green,193,240,220
-sugar cookie,250,243,225
-shell pink,249,235,228
-sand,226,202,118
-silver lining,199,204,208
-silver fox,185,178,168
-newport blue,144,170,182
-copley gray,146,139,121
-gray timber wolf,187,194,199
-asphalt,19,10,6
-greenblue,35,196,139
-tarrytown green,66,88,83
-violetta,197,184,188
-lite cocoa,180,154,142
-halcyon green,155,172,164
-jet set,131,151,178
-goldenhurst,177,136,74
-traffic light green,51,165,50
+sapphire blue,0,103,165
+blond,250,240,190
+light orange,254,216,177
+beaver,159,129,112
+neon fuchsia,254,65,100
+waterspout,164,244,249
+portland orange,255,90,54
+blood orange,209,0,28
+independence,76,81,109
+raisin black,36,33,36
+emerald,80,200,120
+usafa blue,0,79,152
+brilliant lavender,244,187,255
+teal,0,128,128
+selective yellow,255,186,0
+vivid violet,159,0,255
+carmine red,255,0,56
+university of tennessee orange,247,127,0
+tickle me pink,252,137,172
+celadon blue,0,123,167
+dark lemon lime,139,190,27
+plump purple,89,70,178
+sweet brown,168,55,49
+buff,240,220,130
+vermilion,227,66,52
+dark sienna,60,20,20
+kobicha,107,68,35
+satin sheen gold,203,161,53
+light brown,181,101,29
+space cadet,29,41,81
+bangladesh green,0,106,78
+twilight lavender,138,73,107
+han purple,82,24,250
+yankees blue,28,40,65
 old heliotrope,86,60,92
-navy green,53,83,10
-tasman,207,220,207
-desert,204,173,96
-grecian ivory,217,207,191
-deep river,0,121,180
-beige,221,202,180
-midnight,1,22,53
-candy drop,194,92,106
-blue stream,177,202,209
-reviving green,232,223,152
-sherry cream,250,229,222
-early sunset,241,226,219
-cordovan,137,63,69
-mineral deposit,172,176,175
-fawn brindle,168,161,150
-lime pop,205,202,40
-evening sky,71,74,87
-galapagos,5,94,109
-balanced beige,191,179,161
-pressed flower,197,149,147
-seaside sand,182,158,149
-brilliant white,236,239,234
-yellow brown,183,148,0
-coming up roses,226,119,135
-observatory,2,134,111
-paparazzi,90,75,100
-parrot pink,217,152,160
-oxford gray,131,145,161
-charming pink,238,212,211
-air blue,187,217,226
-tuna,53,53,66
-porsche,234,174,105
-balcony sunset,214,142,108
-white heron,241,242,235
-groundhog day,217,187,166
-plantain chips,214,165,81
-university of california gold,183,135,39
-autumn ashes,128,107,105
-light sea green,152,246,176
-totally black,62,63,65
-mink,83,69,61
-tucson teal,12,71,79
-galt peach,207,166,138
-espresso bean,60,51,49
-bellbottom blues,57,108,141
-seersucker suit,196,200,198
-pink innocence,236,187,207
-white mink,239,237,235
-permanent geranium lake,225,44,44
-very green,24,120,93
-perrywinkle,143,140,231
-raccoon hollow,158,146,126
-rock harbor violet,228,222,222
-sweet maple,221,174,106
-sunny side up,239,228,165
-crushed velvet,142,46,73
-cast iron,101,103,92
-piedmont gray,158,169,162
-loblolly,189,201,206
-luck of the irish,84,120,58
-tequila,255,230,199
-pewter tray,188,196,193
-dark truffle,89,77,70
-white iris,225,226,232
-warm grey,151,138,132
-pink raspberry,199,126,176
-cappuccino froth,241,231,211
-waterfall,192,227,220
-eagle ridge,115,110,99
-silver chalice,234,234,238
-blue stone,1,97,98
-gum leaf,182,211,191
-utah sky,29,149,209
-jade green,1,136,75
-sheer pink,246,227,214
-golden thread,215,190,112
-purple potion,132,117,141
-hyacinth tint,198,201,225
-snowbound,221,235,228
-sociable,231,195,154
-blue with a hint of purple,83,60,198
-brandy punch,205,132,41
-nepal,142,171,193
-tropical sea,0,166,154
-victorian garden,169,162,138
-ocean foam,202,200,182
-mystic fairy,221,212,218
-czarina,119,87,90
-dijon,226,195,140
-california redwood,153,90,74
-copper patina,176,216,204
-sandlot gray,190,176,167
-baby blue,137,207,240
-cellini gold,222,181,132
-potentially purple,212,202,224
-cascade,142,174,218
-pumice,194,202,196
-polaris blue,111,138,141
-royal red,155,28,49
-honey moth,251,236,206
-grape creme,189,187,188
-electric lime,204,255,0
-palm leaf,25,51,14
-citrus blossom,245,193,140
-sickly yellow,208,228,41
-crantini,149,76,82
-dorset gold,222,183,116
-rye flour,240,230,211
-ocre,198,156,4
-classic rose,251,204,231
-festival green,98,169,56
-osage orange,244,166,62
-unique gray,203,201,204
-light red,255,71,76
-orange appeal,238,168,105
-pine grove,126,119,91
-hot lips,189,67,128
-oregano,141,137,64
-rosy brown,188,143,143
-brazil,136,98,33
-pilgrimage foliage,174,90,54
-olympic range,67,77,70
-heather field,139,139,147
-winter gray,209,206,215
-rose linen,231,173,163
-socialite,146,119,120
-blackout,65,63,63
-party peach,253,164,104
-dark medium gray,169,169,169
-argos,185,187,182
-princess ivory,249,234,216
-trailing vine,89,105,82
-coco malt,230,220,203
-cayenne,196,75,47
-kobe,136,45,23
-fire mist,251,216,197
-spanish leather,143,102,54
-aquatone,165,180,170
-bottle green,9,54,36
-tandoori spice,172,112,107
+sandy tan,253,217,181
+deep peach,255,203,164
+cardinal,196,30,58
+persian plum,112,28,28
+magic mint,170,240,209
+dark pastel blue,119,158,203
+prune,112,28,28
+dark goldenrod,184,134,11
+antique bronze,102,93,30
+french beige,166,123,91
+american green,52,179,52
+burlywood,222,184,135
+rifle green,68,76,56
+amethyst,153,102,204
+sunset,250,214,165
+bronze yellow,115,112,0
+green sheen,110,174,161
+cultured,245,245,245
+charcoal,54,69,79
+alien armpit,132,222,2
+rufous,168,28,7
+deep cerise,218,50,135
+purple heart,105,53,156
+spring frost,135,255,42
+scarlet,255,36,0
+cerulean,0,123,167
+sky blue,135,206,235
+palm leaf,111,153,64
+dark pastel green,3,192,60
+languid lavender,214,202,221
+shampoo,255,207,241
+upsdell red,174,32,41
+light carmine pink,230,103,113
+dark turquoise,0,206,209
+electric cyan,0,255,255
+baby blue eyes,161,202,241
+aztec gold,195,153,83
+french sky blue,119,181,254
+hunter green,53,94,59
+milk,253,255,245
+pale pink,250,218,221
+old moss green,134,126,54
+pastel green,119,221,119
+smashed pumpkin,255,109,58
+pale violet,204,153,255
+granny smith apple,168,228,160
+zaffre,0,20,168
+deep lemon,245,199,26
+pine green,1,121,111
+heat wave,255,122,0
+otter brown,101,67,33
+black bean,61,12,2
+dark pink,231,84,128
+mexican pink,228,0,124
+philippine golden yellow,255,223,0
+pale spring bud,236,235,189
+tuscan tan,166,123,91
+beau blue,188,212,230
+rebecca purple,102,51,153
+antique brass,205,149,117
+salmon,250,128,114
+tangerine,242,133,0
+pink lavender,216,178,209
+rich maroon,176,48,96
+byzantium,112,41,99

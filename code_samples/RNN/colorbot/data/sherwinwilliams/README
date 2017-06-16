@@ -1,6 +1,0 @@
-paints.raw came from copying and pasting from the PDF here: 
-
-https://images.sherwin-williams.com/content_images/sw-pdf-sherwin-williams-color.pdf
-
-I run it through some regex to filter out the crap and produce the (name, r, g, b) tuples
-
