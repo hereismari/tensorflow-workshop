@@ -78,7 +78,7 @@
    
    For each node (process) you'll need to run:
    
-   *export TF_CONFIG=`python TF_CONFIG.py <task_type> <task_index>`*
+   *export TF_CONFIG=`python TF_CONFIG.py <task_type> <task_index>`*  
    *python experiment.py*
    
 4. An example of output for each process is available at [imgs/](https://github.com/mari-linhares/tensorflow-workshop/tree/master/code_samples/distributed_tensorflow/local/imgs)
