@@ -12,7 +12,8 @@
    
    Example:
 
-   *cluster = {'master': ['instance-1:8000'],
+   ```python
+   cluster = {'master': ['instance-1:8000'],
 		       'ps': ['instance-2:8000'],
 		       'worker': ['instance-3:8000']}
 
@@ -21,7 +22,8 @@
 	   'task': {'type': args.task_type, 'index': args.task_index},
 	   'model_dir': '/tmp/output_test',
 	   'environment': 'cloud'
-	  })*
+	  })
+   ```
 
    I'll explain briefly what each parameter defined above means:
 
@@ -73,9 +75,9 @@
 
 4. Enable communication between the instances. In Google cloud:
    
-   4.1 Go to console  
-   4.2 Compute > networking > firewall rules  
-   4.3 Add an ingress rule to allow access into the ports
+   1. Go to console  
+   2. Compute > networking > firewall rules  
+   3. Add an ingress rule to allow access into the ports
        defined on the TF_CONFIG file  
 
 5. Create a directory for the model checkpoint files in a distributed
@@ -103,7 +105,7 @@
    
    For each node (instance) you'll need to run:
    
-   *export TF_CONFIG=`python TF_CONFIG.py <task_type> <task_index>`*
+   *export TF_CONFIG=`python TF_CONFIG.py <task_type> <task_index>`*  
    *python experiment.py*
    
-4. The output for each node shoud be silimar to the ones at [imgs/](https://github.com/mari-linhares/tensorflow-workshop/tree/master/code_samples/distributed_tensorflow/local/imgs)
+4. The output for each node shoud be silimar to the ones at [../local/imgs/](https://github.com/mari-linhares/tensorflow-workshop/tree/master/code_samples/distributed_tensorflow/local/imgs)
