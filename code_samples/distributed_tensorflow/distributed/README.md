@@ -109,3 +109,13 @@
    *python experiment.py*
    
 4. The output for each node shoud be silimar to the ones at [../local/imgs/](https://github.com/mari-linhares/tensorflow-workshop/tree/master/code_samples/distributed_tensorflow/local/imgs)
+
+## Google Cloud ML Engine
+
+A simpler approach is to use Google Cloud ML Engine to run your jobs, check:
+
+* [deployment](https://cloud.google.com/ml-engine/docs/how-tos/training-jobs)
+* [how to package your code](https://cloud.google.com/ml-engine/docs/how-tos/packaging-trainer)
+* [using GPUs](https://cloud.google.com/ml-engine/docs/how-tos/using-gpus)
+* [full example](https://github.com/GoogleCloudPlatform/cloudml-samples/tree/master/census)
+
