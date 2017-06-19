@@ -12,7 +12,8 @@
    
    Example:
 
-   *cluster = {'master': ['localhost:2220'],
+   ```python
+   cluster = {'master': ['localhost:2220'],
 		       'ps': ['localhost:2222', 'localhost:2221'],
 		       'worker': ['localhost:2223', 'localhost:2224']}
 
@@ -21,7 +22,8 @@
 	   'task': {'type': args.task_type, 'index': args.task_index},
 	   'model_dir': '/tmp/output_test',
 	   'environment': 'cloud'
-	  })*
+	  })
+   ```
 
    I'll explain briefly what each parameter defined above means:
 
