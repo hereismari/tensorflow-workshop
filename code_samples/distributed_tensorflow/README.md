@@ -14,3 +14,4 @@ For more info go to TensorFlow official doc:
   * [distributed tensorflow](https://www.tensorflow.org/deploy/distributed)
   * [estimators](https://www.tensorflow.org/extend/estimators)
 
+*Special thanks to: @elibixby and @xiejw*
