@@ -59,8 +59,7 @@
    
    This is the path where the master should save the checkpoints and
    other model related files. For a multi machines environment
-   a distributed file system should be used, so we need
-   something like:
+   a distributed file system should be used, so we'll have something like:
    
    * For Google Storage: *gs://<bucket>/<path>*
    * For DFS: *dfs://<path>*
