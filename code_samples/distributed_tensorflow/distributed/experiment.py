@@ -16,8 +16,7 @@ from __future__ import print_function
 # In[ ]:
 
 import tensorflow as tf
-print (tf.__version__) # tested with v1.1
-
+print (tf.__version__) # tested with v1.2
 
 # In[ ]:
 
@@ -45,9 +44,6 @@ tf.logging.set_verbosity(tf.logging.INFO)
 # Run an experiment
 from tensorflow.contrib.learn.python.learn import learn_runner
 
-FLAGS = tf.app.flags.FLAGS
-flags = tf.app.flags
-flags.DEFINE_string("model_dir", "/tmp/output", "output dir")
 import os
 
 # Define the model, using Keras
@@ -97,14 +93,11 @@ def model_fn(features, targets, mode, params):
 # Import the MNIST dataset
 mnist = input_data.read_data_sets("/tmp/MNIST/", one_hot=True)
 
-# using a smaller size to debug input fns
-limit = 1000
-x_train = np.reshape(mnist.train.images, (-1, 28, 28, 1))[:limit]
-y_train = mnist.train.labels[:limit]
-x_test = np.reshape(mnist.test.images, (-1, 28, 28, 1))[:limit]
-y_test = mnist.test.labels[:limit]
+x_train = np.reshape(mnist.train.images, (-1, 28, 28, 1))
+y_train = mnist.train.labels
+x_test = np.reshape(mnist.test.images, (-1, 28, 28, 1))
+y_test = mnist.test.labels
     
-
 # In[ ]:
 
 # parameters
@@ -116,16 +109,13 @@ STEPS = 1000
 
 # Input functions
 
-# this couldn't possibly be right... 
 x_train_dict = {'x': x_train }
-
 train_input_fn = numpy_io.numpy_input_fn(
           x_train_dict, y_train, batch_size=BATCH_SIZE, 
-           shuffle=False, num_epochs=None, 
-            queue_capacity=1000, num_threads=1)
+           shuffle=True, num_epochs=None, 
+            queue_capacity=1000, num_threads=4)
 
-x_test_dict = {'x': x_test }
-	
+x_test_dict = {'x': x_test }	
 test_input_fn = numpy_io.numpy_input_fn(
           x_test_dict, y_test, batch_size=BATCH_SIZE, shuffle=False, num_epochs=1)
 
