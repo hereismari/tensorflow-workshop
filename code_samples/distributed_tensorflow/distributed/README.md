@@ -5,7 +5,8 @@
    
    *learn_runner.run(generate_experiment_fn(), run_config=tf.contrib.learn.RunConfig())*
 
-	Notice that the model can be **any estimators model + experiment!!**
+	Notice that Tensorflow should be v1.2 or higher and
+	the model can be **any estimators model + experiment!!**
 
 2. Set up the TF_CONFIG env. variable, in this variable you'll define
    how your achitecture is defined.
@@ -14,8 +15,8 @@
 
    ```python
    cluster = {'master': ['instance-1:8000'],
-		       'ps': ['instance-2:8000'],
-		       'worker': ['instance-3:8000']}
+              'ps': ['instance-2:8000'],
+              'worker': ['instance-3:8000']}
 
    TF_CONFIG = json.dumps(
 	  {'cluster': cluster,
