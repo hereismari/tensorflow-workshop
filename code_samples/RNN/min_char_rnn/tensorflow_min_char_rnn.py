@@ -133,9 +133,9 @@ while True:
 	target_vals_onehot = one_hot(target_vals)
 
 	hprev_val, loss_val, _ = sess.run([hprev, loss, updates],
-									  feed_dict={inputs: input_vals_onehot,
-												 targets: target_vals_onehot,
-												 init_state: hprev_val})
+					  feed_dict={inputs: input_vals_onehot,
+						     targets: target_vals_onehot,
+						     init_state: hprev_val})
 
 	# print progress
 	smooth_loss = smooth_loss * 0.999 + loss_val * 0.001
@@ -157,9 +157,8 @@ while True:
 			# reshaping so it has the same shape as TensorFlow input
 			x = np.reshape(x, [-1, VOCAB_SIZE])
 			
-			pred, hprev_sample = sess.run([pred_sample, h_sample],
-										  feed_dict={inputs: x,
-													 init_state: hprev_sample})
+			pred, hprev_sample = sess.run([pred_sample, h_sample], 
+						      feed_dict={inputs: x, init_state: hprev_sample})
 			# generates next letter
 			ix = np.random.choice(range(VOCAB_SIZE), p=pred.ravel())
 			# update next char with the prediction
