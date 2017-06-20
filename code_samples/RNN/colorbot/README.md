@@ -7,7 +7,7 @@ But unlike that blog post, we generate a color given a name, rather than generat
 name given a color.
 
 The pre-trained model available at pretrained folder was trained on [this dataset (MISSING LINK)]()
-which was generated from [@andrewortman](https://github.com/andrewortman/colorbot/).
+which was preprocessed by [@andrewortman](https://github.com/andrewortman/colorbot/).
 
 ## About the model
 
