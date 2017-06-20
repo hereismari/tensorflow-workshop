@@ -131,18 +131,8 @@ while True:
 
 	input_vals_onehot  = one_hot(input_vals)
 	target_vals_onehot = one_hot(target_vals)
-
-	hprev_val, loss_val, _ = sess.run([hprev, loss, updates],
-					  feed_dict={inputs: input_vals_onehot,
-						     targets: target_vals_onehot,
-						     init_state: hprev_val})
-
-	# print progress
-	smooth_loss = smooth_loss * 0.999 + loss_val * 0.001
-	if n % 100 == 0: print('iter %d, loss: %f' % (n, smooth_loss)) 
-
-	# sampling
 	
+	# sampling
 	if n % 1000 == 0:
 		sample_length = 200
 		hprev_sample = np.copy(hprev_val)
@@ -169,5 +159,15 @@ while True:
 		txt = ''.join(ix_to_char[ix] for ix in sample_ix)
 		print('----\n%s\n----' % (txt, ))
 		
+	# training
+	hprev_val, loss_val, _ = sess.run([hprev, loss, updates],
+					  feed_dict={inputs: input_vals_onehot,
+						     targets: target_vals_onehot,
+						     init_state: hprev_val})
+
+	# print progress
+	smooth_loss = smooth_loss * 0.999 + loss_val * 0.001
+	if n % 100 == 0: print('iter %d, loss: %f' % (n, smooth_loss)) 
+
 	p += SEQ_LENGTH
 	n += 1
