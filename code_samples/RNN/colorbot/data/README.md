@@ -2,8 +2,8 @@
 
 The data available on this repo was taken from Wikipedia color dataset:
 
-https://en.wikipedia.org/wiki/List_of_colors:_A-F
-https://en.wikipedia.org/wiki/List_of_colors:_G-M
+https://en.wikipedia.org/wiki/List_of_colors:_A-F  
+https://en.wikipedia.org/wiki/List_of_colors:_G-M  
 https://en.wikipedia.org/wiki/List_of_colors:_N-Z
 
 The data was preprocessed and the final result is train.csv and test.csv
