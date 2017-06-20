@@ -21,12 +21,14 @@ parser.add_argument('--output_dir',
 					help='Local path for the CSV outputs',
 					default='data')
 
+# constants
 DATA_TYPE = ['train', 'test']
 CLASS = ['neg', 'pos']
+HEADER = ['review', 'is_positive', 'sequence_length']
 
 def write_CSV_header(file_path):
 	with open(file_path, "a+") as csv_file:
-		csv_file.write('review,is_positive,sequence_length\n')
+		csv_file.write(','.join(HEADER) + '\n')
 	
 # data_path: Local path to the IMDB dataset in your machine
 # data_type: [train, test]
