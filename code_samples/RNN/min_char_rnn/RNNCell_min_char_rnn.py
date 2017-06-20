@@ -48,9 +48,8 @@ input_y = tf.one_hot(targets, VOCAB_SIZE)
 rnn_cell = tf.contrib.rnn.GRUCell(HIDDEN_SIZE)
 
 # run RNN
-rnn_outputs, final_state = tf.nn.dynamic_rnn(rnn_cell, input_x, 
-										  initial_state=init_state,
-										  dtype=tf.float32)
+rnn_outputs, final_state = tf.nn.dynamic_rnn(rnn_cell, input_x,
+					     initial_state=init_state, dtype=tf.float32)
 										  
 rnn_outputs_flat = tf.reshape(rnn_outputs, [-1, HIDDEN_SIZE]) # [ BATCHSIZE x SEQLEN, VOCAB_SIZE ]
 dense_layer = layers.linear(rnn_outputs_flat, VOCAB_SIZE)
@@ -106,9 +105,9 @@ while True:
 
 	# running the graph
 	hprev_val, loss_val, _ = sess.run([final_state, loss, minimizer],
-									  feed_dict={inputs: input_vals,
-												 targets: target_vals,
-												 init_state: hprev_val})
+					  feed_dict={inputs: input_vals,
+						     targets: target_vals,
+						     init_state: hprev_val})
 
 	# print progress
 	smooth_loss = smooth_loss * 0.999 + loss_val * 0.001
@@ -128,8 +127,7 @@ while True:
 		for t in range(sample_length):
 			
 			pred, hprev_sample = sess.run([output_softmax, final_state],
-										  feed_dict={inputs: x,
-													 init_state: hprev_sample})
+						      feed_dict={inputs: x, init_state: hprev_sample})
 										 
 			# generates next letter
 			ix = np.random.choice(range(VOCAB_SIZE), p=pred.ravel())
