@@ -7,7 +7,7 @@ But unlike that blog post, we generate a color given a name, rather than generat
 name given a color.
 
 The pre-trained model available at pretrained folder was trained on [this dataset]()
-which we borrowed from [@andrewortman](https://github.com/andrewortman/colorbot/tree/master/data).
+which we borrowed from [@andrewortman](https://github.com/andrewortman/colorbot/).
 
 ## About the model
 
@@ -19,11 +19,11 @@ That are more likely for this sequence.
 
 ### Model
 
-![]()
+![](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/imgs/colorbot_model.png)
 
 ### Execution example
 
-![]()
+![](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/imgs/colorbot_execution.png)
 
 
 ## About the dataset
