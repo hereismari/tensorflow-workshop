@@ -103,16 +103,6 @@ while True:
 	input_vals  = np.reshape([char_to_ix[ch] for ch in data[p:p + SEQ_LENGTH]], (-1, SEQ_LENGTH))
 	target_vals = np.reshape([char_to_ix[ch] for ch in data[p + 1:p + SEQ_LENGTH + 1]], (-1, SEQ_LENGTH))
 
-	# running the graph
-	hprev_val, loss_val, _ = sess.run([final_state, loss, minimizer],
-					  feed_dict={inputs: input_vals,
-						     targets: target_vals,
-						     init_state: hprev_val})
-
-	# print progress
-	smooth_loss = smooth_loss * 0.999 + loss_val * 0.001
-	if n % 100 == 0: print('iter %d, loss: %f' % (n, smooth_loss))
-
 	# sampling	
 	if n % 1000 == 0:
 		sample_length = 200
@@ -138,5 +128,15 @@ while True:
 		txt = ''.join(ix_to_char[ix] for ix in sample_ix)
 		print('----\n%s\n----' % (txt, ))
 	
+	# running the graph
+	hprev_val, loss_val, _ = sess.run([final_state, loss, minimizer],
+					  feed_dict={inputs: input_vals,
+						     targets: target_vals,
+						     init_state: hprev_val})
+
+	# print progress
+	smooth_loss = smooth_loss * 0.999 + loss_val * 0.001
+	if n % 100 == 0: print('iter %d, loss: %f' % (n, smooth_loss))
+
 	p += SEQ_LENGTH
 	n += 1
