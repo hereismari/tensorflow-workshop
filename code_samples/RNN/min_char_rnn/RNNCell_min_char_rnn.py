@@ -50,11 +50,12 @@ rnn_cell = tf.contrib.rnn.GRUCell(HIDDEN_SIZE)
 # run RNN
 rnn_outputs, final_state = tf.nn.dynamic_rnn(rnn_cell, input_x,
 					     initial_state=init_state, dtype=tf.float32)
-										  
-rnn_outputs_flat = tf.reshape(rnn_outputs, [-1, HIDDEN_SIZE]) # [ BATCHSIZE x SEQLEN, VOCAB_SIZE ]
-dense_layer = layers.linear(rnn_outputs_flat, VOCAB_SIZE)
-labels = tf.reshape(input_y, [-1, VOCAB_SIZE]) # [ BATCHSIZE x SEQLEN, VOCAB_SIZE ] 
-output_softmax = tf.nn.softmax(dense_layer)   # [ BATCHSIZE x SEQLEN, ALPHASIZE ]
+
+# add dense layer on top of the RNN outputs
+rnn_outputs_flat = tf.reshape(rnn_outputs, [-1, HIDDEN_SIZE])
+dense_layer = layers.linear(rnn_outputs_flat, VOCAB_SIZE) 
+labels = tf.reshape(input_y, [-1, VOCAB_SIZE])
+output_softmax = tf.nn.softmax(dense_layer)
 
 # Loss
 loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=dense_layer, labels=labels))
@@ -122,7 +123,7 @@ while True:
 			# generates next letter
 			ix = np.random.choice(range(VOCAB_SIZE), p=pred.ravel())
 			# update next char with the prediction
-			x = np.asa rray([[ix]])
+			x = np.asarray([[ix]])
 			sample_ix.append(ix)
 			
 		txt = ''.join(ix_to_char[ix] for ix in sample_ix)
