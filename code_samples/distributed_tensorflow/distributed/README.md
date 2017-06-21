@@ -89,7 +89,9 @@
       3. Set model_dir in the TF_CONFIG to a path like: gs://<bucket>/<path_to_dir>/
       4. Make sure the master is allowed to write in the bucket
          1. Considering that you’ve created the bucket in the
-            same project of your instance you need to stop the
+            same project of your instance, check if the instance
+	    has full access to the storage api, in case
+	    this is not true you need to stop the
             instance, change the instance scope to allow full
             access to all cloud APIs
             (Edit > allow full access to all cloud APIs) and restart it.
