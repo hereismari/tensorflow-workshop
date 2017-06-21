@@ -21,7 +21,7 @@
    TF_CONFIG = json.dumps(
 	  {'cluster': cluster,
 	   'task': {'type': args.task_type, 'index': args.task_index},
-	   'model_dir': '/tmp/output_test',
+	   'model_dir': 'gs://bucket/your/path',
 	   'environment': 'cloud'
 	  })
    ```
