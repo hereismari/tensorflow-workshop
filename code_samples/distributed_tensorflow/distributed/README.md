@@ -21,7 +21,7 @@
    TF_CONFIG = json.dumps(
 	  {'cluster': cluster,
 	   'task': {'type': args.task_type, 'index': args.task_index},
-	   'model_dir': '/tmp/output_test',
+	   'model_dir': 'gs://bucket/your/path',
 	   'environment': 'cloud'
 	  })
    ```
@@ -77,8 +77,8 @@
    
    1. Go to console  
    2. Compute > networking > firewall rules  
-   3. Add an ingress rule to allow access into the ports
-       defined on the TF_CONFIG file  
+   3. Add an ingress rule to allow access for the machines in
+      the ports defined on the TF_CONFIG file  
 
 5. Create a directory for the model checkpoint files in a distributed
    storage, it can be:
@@ -89,7 +89,9 @@
       3. Set model_dir in the TF_CONFIG to a path like: gs://<bucket>/<path_to_dir>/
       4. Make sure the master is allowed to write in the bucket
          1. Considering that you’ve created the bucket in the
-            same project of your instance you need to stop the
+            same project of your instance, check if the instance
+	    has full access to the storage api, in case
+	    this is not true you need to stop the
             instance, change the instance scope to allow full
             access to all cloud APIs
             (Edit > allow full access to all cloud APIs) and restart it.
@@ -105,8 +107,8 @@
    
    For each node (instance) you'll need to run:
    
-   *export TF_CONFIG=`python TF_CONFIG.py <task_type> <task_index>`*  
-   *python experiment.py*
+   ```export TF_CONFIG=`python TF_CONFIG.py <task_type> <task_index>` ```  
+   ```python experiment.py```
    
 4. The output for each node shoud be silimar to the ones at [../local/imgs/](https://github.com/mari-linhares/tensorflow-workshop/tree/master/code_samples/distributed_tensorflow/local/imgs)
 

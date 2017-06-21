@@ -30,7 +30,6 @@ def get_test_inputs():
   x = tf.expand_dims(x, axis=2)
   return {"": x}, y
 
-
 estimator.fit(input_fn=get_train_inputs, steps=2000)
 p = estimator.predict(input_fn=get_test_inputs)
 for e in p:

@@ -5,25 +5,21 @@ import csv
 # parser definition
 parser = argparse.ArgumentParser(prog='Generate data partition')
 
-parser.add_argument('--data_path',
-					type=str, default='wiki.csv',
-					help='Local path to the csv file in your machine.'
-					     'The file is not expected to have a header, '
-					     'but must have the following structure:'
-					     'name, red, blue, green')
+parser.add_argument('--data_path', type=str, default='wiki.csv',
+		    help='Local path to the csv file in your machine.'
+		         'The file is not expected to have a header, '
+		         'but must have the following structure:'
+		         'name, red, blue, green')
 
-parser.add_argument('--test_size',
-					type=int, default=100,
-					help='Expected size of the training dataset.'
-					     'Default=100')
+parser.add_argument('--test_size', type=int, default=100,
+		    help='Expected size of the training dataset.'
+		         'Default=100')
 
-parser.add_argument('--test_path',
-					type=str, default='test.csv',
-					help='Path to the test csv.')
+parser.add_argument('--test_path', type=str, default='test.csv',
+		    help='Path to the test csv.')
 
-parser.add_argument('--train_path',
-					type=str, default='train.csv',
-					help='Path to the train csv.')
+parser.add_argument('--train_path', type=str, default='train.csv',
+		    help='Path to the train csv.')
 
 # constants
 HEADER = ["name", "red", "green", "blue"]
