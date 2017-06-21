@@ -6,19 +6,12 @@
 # * https://www.tensorflow.org/extend/estimators
 # * https://www.tensorflow.org/get_started/mnist/beginners
 
-# In[ ]:
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-
-# In[ ]:
-
 import tensorflow as tf
 print (tf.__version__) # tested with v1.2
-
-# In[ ]:
 
 # Keras
 from tensorflow.contrib.keras.python.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
@@ -87,9 +80,6 @@ def model_fn(features, labels, mode, params):
         train_op=train_op,
         eval_metric_ops=eval_metric_ops)
 
-
-# In[ ]:
-
 # Import the MNIST dataset
 mnist = input_data.read_data_sets("/tmp/MNIST/", one_hot=True)
 
@@ -97,32 +87,24 @@ x_train = np.reshape(mnist.train.images, (-1, 28, 28, 1))
 y_train = mnist.train.labels
 x_test = np.reshape(mnist.test.images, (-1, 28, 28, 1))
 y_test = mnist.test.labels
-    
-# In[ ]:
 
 # parameters
 LEARNING_RATE = 0.01
 BATCH_SIZE = 128
-STEPS = 1000
-
-# In[ ]:
+STEPS = 10000
 
 # Input functions
-
 x_train_dict = {'x': x_train }
 train_input_fn = numpy_io.numpy_input_fn(
           x_train_dict, y_train, batch_size=BATCH_SIZE, 
            shuffle=True, num_epochs=None, 
-            queue_capacity=1000, num_threads=4)
+            queue_capacity=100000, num_threads=4)
 
 x_test_dict = {'x': x_test }	
 test_input_fn = numpy_io.numpy_input_fn(
           x_test_dict, y_test, batch_size=BATCH_SIZE, shuffle=False, num_epochs=1)
 
-# In[ ]:
-
 model_params = {"learning_rate": LEARNING_RATE}
-
 
 # create experiment
 def generate_experiment_fn():
@@ -146,4 +128,4 @@ def generate_experiment_fn():
   return _experiment_fn
 
 # run experiment 
-learn_runner.run(generate_experiment_fn(), run_config=tf.contrib.learn.RunConfig(model_dir='output_dir'))
+learn_runner.run(generate_experiment_fn(), run_config=tf.contrib.learn.RunConfig())
