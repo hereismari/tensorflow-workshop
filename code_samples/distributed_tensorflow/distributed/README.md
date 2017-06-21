@@ -105,8 +105,8 @@
    
    For each node (instance) you'll need to run:
    
-   *export TF_CONFIG=`python TF_CONFIG.py <task_type> <task_index>`*  
-   *python experiment.py*
+   `export TF_CONFIG=python TF_CONFIG.py <task_type> <task_index>`
+   `python experiment.py`
    
 4. The output for each node shoud be silimar to the ones at [../local/imgs/](https://github.com/mari-linhares/tensorflow-workshop/tree/master/code_samples/distributed_tensorflow/local/imgs)
 
