@@ -77,8 +77,8 @@
    
    1. Go to console  
    2. Compute > networking > firewall rules  
-   3. Add an ingress rule to allow access into the ports
-       defined on the TF_CONFIG file  
+   3. Add an ingress rule to allow access for the machines in
+      the ports defined on the TF_CONFIG file  
 
 5. Create a directory for the model checkpoint files in a distributed
    storage, it can be:
