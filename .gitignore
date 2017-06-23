@@ -1,2 +1,3 @@
 code_samples/RNN/colorbot/pretrained_data/*
+code_samples/GPUs/multi_gpus/proof_of_concept/*
 code_samples/RNN/sentiment_analysis/tensorboard*

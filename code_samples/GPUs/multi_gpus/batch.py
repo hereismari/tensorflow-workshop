@@ -152,9 +152,6 @@ def tower_loss(targets, logits):
 	loss = tf.reduce_mean(cross_entropy, name='cross_entropy_mean')
 	return loss
 
-RUN = False
-
-# Define the model, using Keras
 def model_fn(features, targets, mode, params):
 			 
 	# Create an optimizer that performs gradient descent.
@@ -239,14 +236,16 @@ def model_fn(features, targets, mode, params):
 # Import the MNIST dataset
 mnist = input_data.read_data_sets("/tmp/MNIST/", one_hot=True)
 
-train_df = mnist.train
-test_df = mnist.test
+x_train = np.reshape(mnist.train.images, (-1, 28, 28, 1))#[:limit]
+y_train = mnist.train.labels#[:limit]
+x_test = np.reshape(mnist.test.images, (-1, 28, 28, 1))#[:limit]
+y_test = mnist.test.labels#[:limit]
     
 # In[ ]:
 
 # parameters
 LEARNING_RATE = 0.01
-BATCH_SIZE = 1024
+BATCH_SIZE = 128 * FLAGS.num_gpus
 STEPS = 10000
 
 TOWER_BATCH_SIZE = int(BATCH_SIZE / FLAGS.num_gpus)
@@ -254,19 +253,14 @@ TOWER_BATCH_SIZE = int(BATCH_SIZE / FLAGS.num_gpus)
 # In[ ]:
 
 # Input functions
-def get_input_fn(df, batch_size, epochs=None):
+def get_input_fn(x, y, batch_size, epochs=None):
   def input_fn():
-
-    images, labels = df.next_batch(batch_size)
-
-    images = tf.reshape(images, shape=[-1, 28, 28, 1])
-
-    batched = tf.train.shuffle_batch({'x': images,
-                                      'y': labels},
+    batched = tf.train.shuffle_batch({'x': x,
+                                      'y': y},
                                      batch_size,
                                      min_after_dequeue=100,
-                                     num_threads=4,
-                                     capacity=1000,
+                                     num_threads=8,
+                                     capacity=10000,
                                      enqueue_many=True,
                                      allow_smaller_final_batch=True)
     label = batched.pop('y')
@@ -274,15 +268,17 @@ def get_input_fn(df, batch_size, epochs=None):
   return input_fn
 
 
-train_input_fn = get_input_fn(train_df, BATCH_SIZE)
-test_input_fn = get_input_fn(test_df, BATCH_SIZE)
+train_input_fn = get_input_fn(x_train, y_train, BATCH_SIZE)
+test_input_fn = get_input_fn(x_test, y_test, BATCH_SIZE)
 
 # In[ ]:
 
 model_params = {"learning_rate": LEARNING_RATE}
 
 # create estimator
-estimator = tf.contrib.learn.Estimator(model_fn=model_fn, params=model_params)
+estimator = tf.contrib.learn.Estimator(model_fn=model_fn,
+                                       params=model_params,
+                                       model_dir=FLAGS.output_dir)
 
 # create experiment
 def generate_experiment_fn():
@@ -313,13 +309,7 @@ def generate_experiment_fn():
     )
   return _experiment_fn
 
-# run experiment.
-# Using TF v1.1 the second parameter doesn't seem to work,
-# with TF v1.2 is possible to add a run_config parameter
-# to select the folder you want to save the output files.
-# TODO(monteirom): not crucial, but when you have the time
-# try to figure it out if there's a way to choose the output
-# folder with TF 1.1.0
+
 start_time = time.time()
 learn_runner.run(generate_experiment_fn(), FLAGS.output_dir)
 print('--------------- seconds:', time.time() - start_time)
