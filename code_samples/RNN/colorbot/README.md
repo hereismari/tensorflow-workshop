@@ -1,15 +1,13 @@
 # Colorbot
 
-**Special thanks to [@andrewortman](https://github.com/andrewortman/colorbot/) that has a repo with a good implementation of colorbot using TensorFlow, and gave us the idea to make a workshop about it!**
-
-Here is a draft implementation of ColorBot.
-
-The idea came from [here](http://lewisandquark.tumblr.com/post/160776374467/new-paint-colors-invented-by-neural-network).
-But unlike that blog post, we generate a color given a name, rather than generate a
-name given a color.
+**Special thanks to [@andrewortman](https://github.com/andrewortman/colorbot/) that has a repo with a great implementation of colorbot using TensorFlow, and [@JanelleCShane](http://lewisandquark.tumblr.com/post/160776374467/new-paint-colors-invented-by-neural-network) that made a nice blog post about given rgb colors generate color names. These two sources gave us the idea to make a workshop about it!**
 
 The pre-trained model available at pretrained folder was trained on [this dataset (MISSING LINK)]()
 which was preprocessed by [@andrewortman](https://github.com/andrewortman/colorbot/).
+
+## What is Colorbot?
+
+Colorbot is a RNN model that receives a sequence of characters as input and tries to predict a rgb value as output. As a result we have a color generator!
 
 ![](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/imgs/model_gif.gif)
 
