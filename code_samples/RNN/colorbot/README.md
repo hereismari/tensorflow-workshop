@@ -1,5 +1,7 @@
 # Colorbot
 
+**Special thanks to [@andrewortman](https://github.com/andrewortman/colorbot/) that has a repo with a good implementation of colorbot using TensorFlow, and gave us the idea to make a workshop about it!**
+
 Here is a draft implementation of ColorBot.
 
 The idea came from [here](http://lewisandquark.tumblr.com/post/160776374467/new-paint-colors-invented-by-neural-network).
@@ -8,6 +10,11 @@ name given a color.
 
 The pre-trained model available at pretrained folder was trained on [this dataset (MISSING LINK)]()
 which was preprocessed by [@andrewortman](https://github.com/andrewortman/colorbot/).
+
+![](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/imgs/model_gif.gif)
+
+See ColorBot in action running: *python play_colorbot.py*
+
 
 ## About the model
 
