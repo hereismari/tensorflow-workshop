@@ -1,7 +1,7 @@
 ## Implementations of min_char_rnn
 
 This repo contain implementations of a very simple char-to-char generator, based on the blog post:  
-[The Unreasonable Effectiveness of Recurrent Neural Networks from Andrej Karpathy](http://karpathy.github.io/2015/05/21/rnn-effectiveness/). 
+[The Unreasonable Effectiveness of Recurrent Neural Networks by Andrej Karpathy](http://karpathy.github.io/2015/05/21/rnn-effectiveness/). 
 
 
 * min_char_rnn.py it's just a commented version with small changes of a [code](https://gist.github.com/karpathy/d4dee566867f8291f086) from Andrej Karpathy (@karpathy), that has done this amazing work for teaching RNNs. Thank you, Andrej :)
