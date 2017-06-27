@@ -64,6 +64,8 @@ loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=dense_layer,
 minimizer = tf.train.AdagradOptimizer(learning_rate=LEARNING_RATE).minimize(loss)
 
 # Gradient clipping
+# In this code we're not using gradient clipping, just to make things simpler
+# but if you want to use it, the code bellow implements it.
 '''
 # Here's where the magic happens!
 grads_and_vars = minimizer.compute_gradients(loss)
