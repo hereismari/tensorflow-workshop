@@ -6,7 +6,7 @@ import tensorflow as tf
 from tensorflow.contrib.learn.python.learn.estimators import rnn_common
 # Model builder
 from tensorflow.python.estimator import model_fn as model_fn_lib
-print('Tested with TensorFLow 1.2.0')
+print('Tested with TensorFlow 1.2.0')
 print('Your TensorFlow version:', tf.__version__) 
 from tensorflow.python.ops import math_ops
 
@@ -14,7 +14,6 @@ from tensorflow.python.ops import math_ops
 from matplotlib import pyplot as plt
 
 # Helpers for data processing
-import pandas as pd
 import numpy as np
 import argparse
 
@@ -28,33 +27,6 @@ parser.add_argument('--model_path', type=str, default='pretrained',
 				 'model is.')
 
 # ## Helper functions
-
-# In[170]:
-
-# This function creates a sparse tensor in the following way, given:
-# indices = [[0, 0], [1, 1], [2, 2]]
-# values = [1, 2, 3]
-# dense_shape = [3, 4]
-#
-# The output will be a sparse tensor that represents this dense tensor:
-# [ 
-#   [1, 0, 0, 0]
-#   [0, 2, 0, 0]
-#   [0, 0, 3, 0]
-# ]
-#
-# We're using this to generate a Sparse tensor that can be easily
-# formated in a one hot representation.
-# More at: https://www.tensorflow.org/api_docs/python/tf/SparseTensor
-def _sparse_string_to_index(sp, mapping):
-    # This operation constructs a lookup table to convert tensor of strings
-    # into int64 IDs
-    table = tf.contrib.lookup.index_table_from_tensor(mapping, dtype=tf.string)
-    
-    return tf.SparseTensor(indices=sp.indices,
-                           values=table.lookup(sp.values),
-                           dense_shape=sp.dense_shape)
-
 # Returns the column values from a CSV file as a list
 def _get_csv_column(csv_file, column_name):
     with open(csv_file, 'r') as f:
@@ -72,30 +44,30 @@ def _plot_rgb(rgb, color_name):
 CHARACTERS = [chr(i) for i in range(256)]
 SEQUENCE_LENGTH_KEY = 'sequence_length'
 COLOR_NAME_KEY = 'color_name'
-RGB_KEY = 'rgb'
 
-# Creating my own input function for a given color
+# Creating my own input function for a given color                                            
 def get_input_fn(color):
 	def input_fn():
-		seq_len = list([len(color)])
-		#x = math_ops.to_int32(seq_len)
-		#print(x.get_shape().ndims)
-		color_name = [color] # the input for string_split needs to be
-						     # a tensor
+		seq_len = len(color)
+		# color is now a sequence of chars
+		color_split = tf.string_split([color], '').values
+	
+		# creating dataset
+		dataset = tf.contrib.data.Dataset.from_tensors((color_split))
+		# generating a batch, so it has the right rank
+		dataset = dataset.batch(1)
 
-		split_color_name = tf.string_split(color_name, delimiter='')
-		mapping = tf.constant(CHARACTERS, name="mapping")
-		integerized_color_name = _sparse_string_to_index(split_color_name, mapping)
+		# creating iterator
+		color_name = dataset.make_one_shot_iterator().get_next()
 
-		# generating anything (0, 0, 0) for the y
-		# since for most cases there's no right answer 
-		y = np.asarray([[0, 0, 0]], dtype=np.float32)
-
-		# creates inputs
-		x = {COLOR_NAME_KEY: integerized_color_name,
-             SEQUENCE_LENGTH_KEY: seq_len}
-                                          
-		return x, y
+		features = {
+			COLOR_NAME_KEY: color_name,
+			SEQUENCE_LENGTH_KEY: [seq_len]
+		}
+		
+		# we're just predicting, so the label can be None
+		# if you're training make sure to return a label
+		return features, None 
 	return input_fn
 
 # Loading the Estimator model
@@ -108,15 +80,18 @@ def get_model_fn(rnn_cell_sizes,
     def model_fn(features, labels, mode):
         
         color_name = features[COLOR_NAME_KEY]
-        sequence_length = features[SEQUENCE_LENGTH_KEY]
-        print(sequence_length)
-        x = math_ops.to_int32(sequence_length)
-        print(x.get_shape().ndims)
-
-        # Creating dense representation for the names
-        # and then converting it to one hot representation
-        dense_color_name = tf.sparse_tensor_to_dense(color_name, default_value=len(CHARACTERS))
-        color_name_onehot = tf.one_hot(dense_color_name, depth=len(CHARACTERS) + 1)
+        sequence_length = tf.cast(features[SEQUENCE_LENGTH_KEY], dtype=tf.int32) # int64 -> int32
+  
+        # Creating a tf constant to hold the map char -> index
+        # this is need to create the sparse tensor and after the one hot encode
+        mapping = tf.constant(CHARACTERS, name="mapping")
+        table = tf.contrib.lookup.index_table_from_tensor(mapping, dtype=tf.string)
+        int_color_name = table.lookup(color_name)
+        
+        # representing colornames with one hot representation
+        color_name_onehot = tf.one_hot(int_color_name, depth=len(CHARACTERS) + 1)
+        
+        print(color_name_onehot.shape)
         
         # Each RNN layer will consist of a LSTM cell
         rnn_layers = [tf.contrib.rnn.LSTMCell(size) for size in rnn_cell_sizes]
@@ -179,7 +154,7 @@ print('Colorbot is ready to generate colors!')
 
 EXIT_COMMAND = '<exit>'
 while True:
-	color_name = input('give me a color name (or %s): ' % (EXIT_COMMAND))
+	color_name = raw_input('give me a color name (or %s): ' % (EXIT_COMMAND))
 	if color_name == EXIT_COMMAND:
 		break
 	
