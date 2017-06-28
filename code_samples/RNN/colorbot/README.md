@@ -7,7 +7,7 @@ which was preprocessed by [@andrewortman](https://github.com/andrewortman/colorb
 
 ## What is Colorbot?
 
-Colorbot is a RNN model that receives a sequence of characters as input and tries to predict a rgb value as output. As a result we have a color generator!
+Colorbot is a RNN model that receives a sequence of characters as input and learns to predict a rgb value as output. As a result we have a color generator!
 
 ![](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/imgs/model_gif.gif)
 
