@@ -44,8 +44,8 @@ init_state = tf.placeholder(shape=[None, HIDDEN_SIZE], dtype=tf.float32, name="s
 input_x = tf.one_hot(inputs, VOCAB_SIZE)
 input_y = tf.one_hot(targets, VOCAB_SIZE)
 
-# creating RNN cell
-rnn_cell = tf.contrib.rnn.GRUCell(HIDDEN_SIZE)
+# creating a RNN cell
+rnn_cell = tf.contrib.rnn.BasicRNNCell(HIDDEN_SIZE)
 
 # run RNN
 rnn_outputs, final_state = tf.nn.dynamic_rnn(rnn_cell, input_x,
