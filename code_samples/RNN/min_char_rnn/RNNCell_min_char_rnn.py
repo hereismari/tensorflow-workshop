@@ -40,7 +40,7 @@ init_state = tf.placeholder(shape=[None, HIDDEN_SIZE], dtype=tf.float32, name="s
 
 # RNN
 
-# [ BATCHSIZE, SEQLEN, ALPHASIZE ]
+# [ BATCH_SIZE, SEQ_LEN, VOCAB_SIZE ]
 input_x = tf.one_hot(inputs, VOCAB_SIZE)
 input_y = tf.one_hot(targets, VOCAB_SIZE)
 
