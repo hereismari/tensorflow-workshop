@@ -1,7 +1,9 @@
-code_samples/RNN/colorbot/pretrained_data/*
 code_samples/RNN/sentiment_analysis/word*
+code_samples/RNN/colorbot/pretrained_data/*
 code_samples/RNN/sentiment_analysis/ids_matrix*
 code_samples/RNN/sentiment_analysis/positiveReviews/*
 code_samples/RNN/sentiment_analysis/negativeReviews/
 code_samples/RNN/sentiment_analysis/tensorboard/*
 code_samples/GPUs/multi_gpus/proof_of_concept/*
+code_samples/MNIST_Estimators/beginners*
+code_samples/MNIST_Estimators/pros*
