@@ -112,8 +112,6 @@ STEPS = 1000
 # In[ ]:
 
 # Input functions
-
-# this couldn't possibly be right... 
 x_train_dict = {'x': x_train }
 
 train_input_fn = numpy_io.numpy_input_fn(
