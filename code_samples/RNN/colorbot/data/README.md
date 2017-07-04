@@ -8,7 +8,7 @@ https://en.wikipedia.org/wiki/List_of_colors:_N-Z
 
 The data was preprocessed and the final result is train.csv and test.csv
 
-## How to generate it again?
+## How to generate this data your self?
 
 **make sure to delete the files if you want to generate them again**
 
