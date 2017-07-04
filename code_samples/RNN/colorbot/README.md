@@ -12,17 +12,13 @@ Colorbot is a RNN model that receives a sequence of characters as input and lear
 ![](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/imgs/model_gif.gif)  
 *Check how this gif was generated in the [gif_model notebook](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/gif_model.ipynb)*
 
-
 See ColorBot in action running: *python play_colorbot.py*
-
 
 ## About the model
 
 Here's a diagram of the model used.
 
-The model was trained in a way that given a sequence of lower case characteres
-it tries to predict 3 float numbers that represent the normalized RGB values.
-That are more likely for this sequence.
+The model was trained in a way that given a word (sequence of lower case characteres) it tries to predict 3 float numbers that represent the normalized RGB values that more likely represent this word.
 
 ### Model
 
