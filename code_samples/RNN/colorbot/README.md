@@ -28,7 +28,6 @@ The model was trained in a way that given a word (sequence of lower case charact
 
 ![](https://github.com/mari-linhares/tensorflow-workshop/blob/master/code_samples/RNN/colorbot/imgs/colorbot_execution.png)
 
-
 ## About the dataset
 
 The data available on this repo was taken from Wikipedia color dataset:
