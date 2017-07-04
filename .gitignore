@@ -7,3 +7,4 @@ code_samples/RNN/sentiment_analysis/tensorboard/*
 code_samples/GPUs/multi_gpus/proof_of_concept/*
 code_samples/MNIST_Estimators/beginners*
 code_samples/MNIST_Estimators/pros*
+*/.ipynb_checkpoints
