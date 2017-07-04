@@ -20,6 +20,6 @@ manually using regex from the Wikipedia datasets:
 		* replace: (#[0-9a-fA-F]*).*$ with \1  
 
 **make sure to delete the files if you want to generate them again**
-* Run *python aggregate_wiki.py* to generate the wiki.csv file  (
+* Run *python aggregate_wiki.py* to generate the wiki.csv file
 * Run *python partitioning_data.py* to generate the train.csv and
 test.csv files
