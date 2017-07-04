@@ -1,5 +1,5 @@
-# TensorFlow-Workshop
-Code samples for a TensorFlow Workshop [WIP]
+# TensorFlow-Workshop [WIP]
+
 
 # Installation instructions
 
