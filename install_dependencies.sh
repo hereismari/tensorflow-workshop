@@ -37,13 +37,10 @@ echo PYTHON_VERSION  = "${PYTHON_VERSION}"
 if [ "${PYTHON_VERSION}" == "2 and 3" ]; then
 	p2
 	p3
-
 elif [ "${PYTHON_VERSION}" == "2" ]; then
 	p2
-
 elif [ "${PYTHON_VERSION}" == "3" ]; then
 	p3
-
 else 
 	echo 'bad argument'
 fi

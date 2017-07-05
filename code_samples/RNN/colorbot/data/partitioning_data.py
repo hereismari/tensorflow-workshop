@@ -24,7 +24,7 @@ parser.add_argument('--train_path', type=str, default='train.csv',
 # constants
 HEADER = ["name", "red", "green", "blue"]
 
-
+# helper functions
 def write_csv(csv_file, content):
 	def _write_csv_header(csv_writer):
 		csv_writer.writerow(HEADER)

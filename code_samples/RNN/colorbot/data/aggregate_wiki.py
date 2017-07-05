@@ -6,12 +6,12 @@ import re
 parser = argparse.ArgumentParser(prog='Make csv file from wikipedia data')
 
 parser.add_argument('--data_dir',
-					type=str, default='wikipedia/',
-					help='Local dir to the txt files.')
+		    type=str, default='wikipedia/',
+		    help='Local dir to the txt files.')
 
 parser.add_argument('--output_path',
-					type=str, default='wiki.csv',
-					help='Local path to the csv output.')
+		    type=str, default='wiki.csv',
+		    help='Local path to the csv output.')
 
 # constants
 FILES = ['A_F.txt', 'G_M.txt', 'N_Z.txt']

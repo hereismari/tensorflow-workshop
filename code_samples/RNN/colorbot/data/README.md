@@ -8,9 +8,7 @@ https://en.wikipedia.org/wiki/List_of_colors:_N-Z
 
 The data was preprocessed and the final result is train.csv and test.csv
 
-## How to generate it again?
-
-**make sure to delete the files if you want to generate them again**
+## How this data was generated?
 
 * wikipedia/A_F.txt, wikipedia/G_M.txt, wikipedia/N_Z.txt were generated
 manually using regex from the Wikipedia datasets:
@@ -21,6 +19,7 @@ manually using regex from the Wikipedia datasets:
 	3. Remove everything after the HEX number with regex:
 		* replace: (#[0-9a-fA-F]*).*$ with \1  
 
-* Run *python aggregate_wiki.py* to generate the wiki.csv file  
+**make sure to delete the files if you want to generate them again**
+* Run *python aggregate_wiki.py* to generate the wiki.csv file
 * Run *python partitioning_data.py* to generate the train.csv and
 test.csv files
