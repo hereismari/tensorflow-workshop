@@ -15,7 +15,6 @@ from matplotlib import pyplot as plt
 
 # Helpers for data processing
 import numpy as np
-import argparse
 
 # parser definition
 import argparse
