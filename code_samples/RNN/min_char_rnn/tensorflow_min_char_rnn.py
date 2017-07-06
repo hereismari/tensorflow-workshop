@@ -8,7 +8,7 @@ BSD License
 Original code from: Vinh Khuc (@knvinh)
 Modified by: Marianne Linhares (@mari-linhares)
 """
-import random
+
 import numpy as np
 import tensorflow as tf
 
@@ -17,10 +17,14 @@ def one_hot(v):
     return np.eye(VOCAB_SIZE)[v]
 
 # data I/O
+
+# should be simple plain text file
 data = open('data/about_tensorflow.txt', 'r').read()
 chars = list(set(data))
+
 DATA_SIZE, VOCAB_SIZE = len(data), len(chars)
-print('Data has %d characters, %d unique.' % (DATA_SIZE, VOCAB_SIZE))
+print('data has %d characters, %d unique.' % (DATA_SIZE, VOCAB_SIZE))
+
 char_to_ix = {ch: i for i, ch in enumerate(chars)}
 ix_to_char = {i: ch for i, ch in enumerate(chars)}
 
@@ -32,9 +36,12 @@ LEARNING_RATE = 1e-1 # size of step for Gradient Descent
 # TensorFlow graph definition
 
 # Placeholders
-inputs     = tf.placeholder(shape=[None, VOCAB_SIZE], dtype=tf.float32, name="inputs")
-targets    = tf.placeholder(shape=[None, VOCAB_SIZE], dtype=tf.float32, name="targets")
-init_state = tf.placeholder(shape=[1, HIDDEN_SIZE], dtype=tf.float32, name="state")
+inputs     = tf.placeholder(shape=[None, VOCAB_SIZE], dtype=tf.float32,
+                            name="inputs")
+targets    = tf.placeholder(shape=[None, VOCAB_SIZE], dtype=tf.float32,
+                            name="targets")
+init_state = tf.placeholder(shape=[1, HIDDEN_SIZE], dtype=tf.float32,
+                            name="state")
 
 # Random initializer will be used by all variables
 initializer = tf.random_normal_initializer(stddev=0.01)
@@ -90,8 +97,8 @@ grads_and_vars = minimizer.compute_gradients(loss)
 grad_clipping = tf.constant(5.0, name="grad_clipping")
 clipped_grads_and_vars = []
 for grad, var in grads_and_vars:
-    clipped_grad = tf.clip_by_value(grad, -grad_clipping, grad_clipping)
-    clipped_grads_and_vars.append((clipped_grad, var))
+  clipped_grad = tf.clip_by_value(grad, -grad_clipping, grad_clipping)
+  clipped_grads_and_vars.append((clipped_grad, var))
 
 # Gradient updates
 # more magic!!!
@@ -157,7 +164,7 @@ while True:
 			sample_ix.append(ix)
 		
 		txt = ''.join(ix_to_char[ix] for ix in sample_ix)
-		print('----\n%s\n----' % (txt, ))
+		print('----\n%s\n----' % (txt))
 		
 	# training
 	hprev_val, loss_val, _ = sess.run([hprev, loss, updates],

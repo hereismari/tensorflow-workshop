@@ -1,47 +1,54 @@
 """
-Minimal character-level Vanilla RNN model. Written by Andrej Karpathy (@karpathy)
-BSD License
+
+Minimal character-level Vanilla RNN model.
+Written by Andrej Karpathy (@karpathy) BSD License
 
 Original code from: Andrej Karpathy (@karpathy)
 Modified by: Marianne Linhares (@mari-linhares)
+
 """
 
 import numpy as np
+
 
 # helper functions
 def softmax(x):
   return np.exp(x) / np.sum(np.exp(x))
 
 # data I/O
-data = open('data/about_tensorflow.txt', 'r').read() # should be simple plain text file
+
+# should be simple plain text file
+data = open('data/about_tensorflow.txt', 'r').read()
 chars = list(set(data))
+
 DATA_SIZE, VOCAB_SIZE = len(data), len(chars)
 print('data has %d characters, %d unique.' % (DATA_SIZE, VOCAB_SIZE))
-char_to_ix = { ch : i for i, ch in enumerate(chars) }
-ix_to_char = { i: ch for i, ch in enumerate(chars) }
+
+char_to_ix = {ch: i for i, ch in enumerate(chars)}
+ix_to_char = {i: ch for i, ch in enumerate(chars)}
 
 # hyperparameters
-HIDDEN_SIZE = 100 # size of hidden layer of neurons
-SEQ_LENGTH = 25 # number of steps to unroll the RNN for (static RNN)
-LEARNING_RATE = 1e-1 # size of step for Gradient Descent
+HIDDEN_SIZE = 100  # size of hidden layer of neurons
+SEQ_LENGTH = 25  # number of steps to unroll the RNN for (static RNN)
+LEARNING_RATE = 1e-1  # size of step for Gradient Descent
 
 # model parameters
 # x: input, h: hidden, y: output
 # W: weight, b: bias
-Wxh = np.random.randn(HIDDEN_SIZE, VOCAB_SIZE)* 0.01 # weight: input to hidden
-Whh = np.random.randn(HIDDEN_SIZE, HIDDEN_SIZE)*0.01 # weight: hidden to hidden
-Why = np.random.randn(VOCAB_SIZE, HIDDEN_SIZE)*0.01 # weight: hidden to output
+Wxh = np.random.randn(HIDDEN_SIZE, VOCAB_SIZE) * 0.01
+Whh = np.random.randn(HIDDEN_SIZE, HIDDEN_SIZE) * 0.01
+Why = np.random.randn(VOCAB_SIZE, HIDDEN_SIZE) * 0.01
 
-bh = np.zeros((HIDDEN_SIZE, 1)) # hidden bias
-by = np.zeros((VOCAB_SIZE, 1)) # output bias
+bh = np.zeros((HIDDEN_SIZE, 1))  # hidden bias
+by = np.zeros((VOCAB_SIZE, 1))  # output bias
+
 
 # loss
-def lossFun(inputs, targets, hprev):
-  """
-  inputs, targets are both list of integers.
-  hprev is Hx1 array of initial hidden state
-  returns the loss, gradients on model parameters, and last hidden state
-  """
+def loss_fun(inputs, targets, hprev):
+  # inputs and targets are both list of integers.
+  # hprev is Hx1 array of initial hidden state
+  # returns the loss, gradients on model parameters, and last hidden state
+
   xs, hs, ys, ps = {}, {}, {}, {}
   hs[-1] = np.copy(hprev)
   loss = 0
@@ -62,7 +69,7 @@ def lossFun(inputs, targets, hprev):
     ps[t] = softmax(ys[t])
 
     # softmax (cross-entropy loss)
-    loss += -np.log(ps[t][targets[t],0])
+    loss += -np.log(ps[t][targets[t], 0])
 
   # backward pass: compute gradients going backwards
   dWxh, dWhh, dWhy = np.zeros_like(Wxh), np.zeros_like(Whh), np.zeros_like(Why)
@@ -71,26 +78,30 @@ def lossFun(inputs, targets, hprev):
   # this will keep track of the hidden state derivative
   dhnext = np.zeros_like(hs[0])
 
-  # backprop into y. see http://cs231n.github.io/neural-networks-case-study/#grad if confused here
+  # backprop into y. 
+  # see http://cs231n.github.io/neural-networks-case-study/#grad
+  # for more info
+
   # for the comments bellow consider:
   # ps[t] = softmax(A[t])
   # A[t] = Why * hs[t] + by
   # hs[t] = tanh(B)
   # B = Whh * hs[t-1] + Wxh * x[t] + bh
+
   for t in reversed(range(len(inputs))):
     # backprop into the output
     # derivative of the softmax function = probs - 1
     dy = np.copy(ps[t])
     dy[targets[t]] -= 1
-    
+
     # calculating derivative for weight: hidden to output
     # dWhy[t] = (dSoftmax / dA) * (dA / dWhy) = dy * hs[t].T
-    dWhy += np.dot(dy, hs[t].T) 
+    dWhy += np.dot(dy, hs[t].T)
     # dWhy[t] = (dSoftmax / dA) * (dA / dby) = dy * 1
-    dby += dy # calculating derivative for the output bias
+    dby += dy  # calculating derivative for the output bias
 
     # backprop into hidden state
-    
+
     # calculating derivative for hidden state
     # IMPORTANT: why we're adding two values?
     # the gradients for the hidden state are composed of two parts
@@ -101,20 +112,20 @@ def lossFun(inputs, targets, hprev):
     #     keeps track of the horizontal gradient
     #     which is calculated multiplying the dhraw by the Whh
     #     think about it...
-    
+
     # dvert[t] = (dSoftmax / dA) * (dA / dh[t]) = dy * Why
     dvert = np.dot(Why.T, dy)
     dhor = dhnext
-	
-	# dh[t] = dvert[t] + dhor[t]
+
+    # dh[t] = dvert[t] + dhor[t]
     dh = dvert + dhor
-    
+
     # derivative of tanh, f'(z) = 1 - f(z) ** 2
-    # dhraw = dB[t] = (dvert + dhor) * (dh[t] / dB) 
+    # dhraw = dB[t] = (dvert + dhor) * (dh[t] / dB)
     # dhraw = (dvert + dhor) * derivative(tanh(B))
-    # dhraw = dh * (1 - hs[t] ** 2) 
-    dhraw = (1 - hs[t] * hs[t]) * dh 
-    
+    # dhraw = dh * (1 - hs[t] ** 2)
+    dhraw = (1 - hs[t] * hs[t]) * dh
+
     # dbh[t] = dhraw * (dB/dbh) = dhraw * 1
     dbh += dhraw 
     # dWxh[t] = dhraw * (dB/dWxh) = dhraw * xs[t]
@@ -122,22 +133,22 @@ def lossFun(inputs, targets, hprev):
     # dbh[t] = dhraw * (dB/dWhh) = dhraw * hs[t-1]
     dWhh += np.dot(dhraw, hs[t-1].T)
 
-	# this keeps track of the horizontal gradient
-	# which is the derivative of the next state
-	# dhnext[t] = dhraw * (dB/dhs[t]) = dhraw * Whh
-    dhnext = np.dot(Whh.T, dhraw) 
-    
+	  # this keeps track of the horizontal gradient
+	  # which is the derivative of the next state
+	  # dhnext[t] = dhraw * (dB/dhs[t]) = dhraw * Whh
+    dhnext = np.dot(Whh.T, dhraw)
+
   # clip values between [-5, 5] to mitigate exploding gradients
   for dparam in [dWxh, dWhh, dWhy, dbh, dby]:
     np.clip(dparam, -5, 5, out=dparam)
 
   return loss, dWxh, dWhh, dWhy, dbh, dby, hs[len(inputs)-1]
 
+
 def sample(h, seed_ix, n):
-  """
-  sample a sequence of integers from the model
-  h is memory state, seed_ix is seed letter for first time step
-  """
+  # sample a sequence of integers from the model
+  # h is memory state, seed_ix is seed letter for first time step
+
   # stores the current letter in one-hot format
   x = np.zeros((VOCAB_SIZE, 1))
   x[seed_ix] = 1
@@ -159,8 +170,8 @@ def sample(h, seed_ix, n):
 
 # training
 
-# n: counts the number of steps, p: pointer to position in sequence
-n, p = 0, 0
+# counter: counts the number of steps, pointer: pointer to position in sequence
+counter, pointer = 0, 0
 
 # memory variables for Adagrad
 mWxh, mWhh, mWhy = np.zeros_like(Wxh), np.zeros_like(Whh), np.zeros_like(Why)
@@ -171,30 +182,34 @@ smooth_loss = -np.log(1.0 / VOCAB_SIZE) * SEQ_LENGTH
 
 while True:
   # prepare inputs (we're sweeping from left to right in steps seq_length long)
-  if p + SEQ_LENGTH + 1 >= len(data) or n == 0:
-    hprev = np.zeros((HIDDEN_SIZE, 1)) # reset RNN memory
-    p = 0 # go from start of data
-  inputs = [char_to_ix[ch] for ch in data[p: p + SEQ_LENGTH]]
-  targets = [char_to_ix[ch] for ch in data[p + 1: p + SEQ_LENGTH + 1]]
+  if pointer + SEQ_LENGTH + 1 >= len(data) or counter == 0:
+    hprev = np.zeros((HIDDEN_SIZE, 1))  # reset RNN memory
+    pointer = 0  # go from start of data
+
+  start_index = pointer
+  end_index = pointer + SEQ_LENGTH
+
+  inputs = [char_to_ix[ch] for ch in data[start_index: end_index]]
+  targets = [char_to_ix[ch] for ch in data[start_index + 1: end_index + 1]]
 
   # sample from the model now and then
-  if n % 1000 == 0:
+  if counter % 1000 == 0:
     sample_ix = sample(hprev, inputs[0], 200)
     txt = ''.join(ix_to_char[ix] for ix in sample_ix)
-    print('----\n%s\n----' % (txt, ))
+    print('----\n%s\n----' % (txt))
 
   # forward seq_length characters through the net and fetch gradient
-  loss, dWxh, dWhh, dWhy, dbh, dby, hprev = lossFun(inputs, targets, hprev)
+  loss, dWxh, dWhh, dWhy, dbh, dby, hprev = loss_fun(inputs, targets, hprev)
   smooth_loss = smooth_loss * 0.999 + loss * 0.001
   # print progress
-  if n % 100 == 0: print('iter %d, loss: %f' % (n, smooth_loss))
+  if counter % 100 == 0: print('iter %d, loss: %f' % (counter, smooth_loss))
 
   # perform parameter update with Adagrad
   for param, dparam, mem in zip([Wxh, Whh, Why, bh, by],
                                 [dWxh, dWhh, dWhy, dbh, dby],
                                 [mWxh, mWhh, mWhy, mbh, mby]):
     mem += dparam * dparam
-    param += -LEARNING_RATE * dparam / np.sqrt(mem + 1e-8) # adagrad update
+    param += -LEARNING_RATE * dparam / np.sqrt(mem + 1e-8)  # adagrad update
 
-  p += SEQ_LENGTH # move data pointer
-  n += 1 # iteration counter
+  pointer += SEQ_LENGTH  # move data pointer
+  counter += 1  # iteration counter
