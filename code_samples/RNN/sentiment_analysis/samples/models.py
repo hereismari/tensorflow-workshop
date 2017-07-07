@@ -24,15 +24,12 @@ def get_model_fn(rnn_cell_sizes,
     sequence_length = tf.cast(features[rnn_common.RNNKeys.SEQUENCE_LENGTH_KEY],
                               tf.int32)
 
-    labels_onehot = tf.one_hot(labels, 2)
-
     # creating embedding for the reviews
     embedding = tf.contrib.layers.embed_sequence(x,
                                                  vocab_size=num_words,
                                                  embed_dim=embed_dim)
 
     # Each RNN layer will consist of a LSTM cell
-
     if len(dropout_keep_probabilities) == len(rnn_cell_sizes):
 
       if mode != tf.contrib.learn.ModeKeys.TRAIN:
@@ -80,15 +77,17 @@ def get_model_fn(rnn_cell_sizes,
 
     loss = None
     train_op = None
-
-    print(predictions_softmax, labels_onehot)
-    eval_op = {
-        'accuracy': tf.metrics.accuracy(
-            tf.argmax(input=predictions_softmax, axis=1),
-            tf.argmax(input=labels_onehot, axis=1))
-    }
+    eval_op = None
 
     if mode != tf.contrib.learn.ModeKeys.INFER:
+      labels_onehot = tf.one_hot(labels, 2)
+
+      eval_op = {
+          'accuracy': tf.metrics.accuracy(
+              tf.argmax(input=predictions_softmax, axis=1),
+              tf.argmax(input=labels_onehot, axis=1))
+      }
+
       loss = tf.losses.softmax_cross_entropy(labels_onehot, predictions)
 
     if mode == tf.contrib.learn.ModeKeys.TRAIN:

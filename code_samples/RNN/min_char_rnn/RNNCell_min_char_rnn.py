@@ -54,7 +54,7 @@ rnn_cell = tf.contrib.rnn.BasicRNNCell(HIDDEN_SIZE)
 
 # run RNN
 rnn_outputs, final_state = tf.nn.dynamic_rnn(rnn_cell, input_x,
-					                                        initial_state=init_state,
+                                             initial_state=init_state,
                                              dtype=tf.float32)
 
 # add dense layer on top of the RNN outputs
@@ -130,7 +130,7 @@ while True:
 
     for t in range(sample_length):
       pred, hprev_sample = sess.run([output_softmax, final_state],
-				                                feed_dict={inputs: x,
+                                    feed_dict={inputs: x,
                                                init_state: hprev_sample})
 
       # generates next letter
@@ -144,9 +144,9 @@ while True:
 
   # running the graph
   hprev_val, loss_val, _ = sess.run([final_state, loss, minimizer],
-			                                 feed_dict={inputs: input_vals,
-				                                           targets: target_vals,
-				                                           init_state: hprev_val})
+                                    feed_dict={inputs: input_vals,
+                                               targets: target_vals,
+                                               init_state: hprev_val})
 
   # print progress
   smooth_loss = smooth_loss * 0.999 + loss_val * 0.001

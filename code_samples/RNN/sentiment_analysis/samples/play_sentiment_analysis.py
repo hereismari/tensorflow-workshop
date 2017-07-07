@@ -21,14 +21,9 @@ parser.add_argument(
     help='The directory where the checkpoints for the model are stored')
 
 parser.add_argument(
-    'is_canned_estimator', type=bool, default=True,
+    '--use_canned_estimator', type=bool, default=False,
     help='If True the DynamicRNNEstimator will be loaded,'
          ' otherwise the CustomRNNEstimator will be loaded')
-
-parser.add_argument(
-    '--batch_by_seq_len', type=bool, default=False,
-    help='If True each bath will have sequences of similar length.'
-         'This makes the model train faster')
 
 parser.add_argument(
     '--max_len', type=int, default=250,
@@ -43,7 +38,7 @@ parser.add_argument(
     help='Only num_words more frequent words will be used for testing')
 
 parser.add_argument(
-    '--eval_batch_size', type=int, default=16,
+    '--eval_batch_size', type=int, default=1,
     help='Batch size used for evaluation')
 
 parser.add_argument(
@@ -86,7 +81,7 @@ parser.add_argument(
          'For sentiment analysis is 2 (positive and negative)')
 
 FLAGS = parser.parse_args()
-
+print(FLAGS)
 
 def _load_map_dicts():
   word_to_id = imdb.get_word_index()
@@ -119,7 +114,7 @@ def main(unused_argv):
   run_config = tf.contrib.learn.RunConfig(model_dir=FLAGS.model_dir)
 
   # loading estimators
-  if FLAGS.is_canned_estimator:
+  if FLAGS.use_canned_estimator:
     xc = tf.contrib.layers.sparse_column_with_integerized_feature(
         'x',
         FLAGS.num_words)
@@ -148,6 +143,8 @@ def main(unused_argv):
         optimizer=FLAGS.optimizer,
         learning_rate=FLAGS.learning_rate,
         embed_dim=FLAGS.embed_dim)
+    estimator = tf.estimator.Estimator(model_fn=model_fn,
+                                       config=run_config)
 
   # getting test input_function
   test_input = get_input_fn(x_test, y_test, FLAGS.eval_batch_size,
@@ -159,7 +156,7 @@ def main(unused_argv):
 
   for i in range(5):
     print(_ids_to_sentence(x_test[i]))
-    print('Prediction:', predictions)
+    print('Prediction:', predictions[i])
     print('Label:', y_test[i])
 
 

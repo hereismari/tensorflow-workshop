@@ -18,11 +18,6 @@ print('TensorFlow version', tf.__version__)
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    '--is_canned_estimator', type=bool, default=True,
-    help='If True the DynamicRNNEstimator will be loaded,'
-         ' otherwise the CustomRNNEstimator will be loaded')
-
-parser.add_argument(
     '--model_dir', type=str, default='sentiment_analysis_output',
     help='The directory where the model outputs should be stored')
 
@@ -86,8 +81,13 @@ parser.add_argument(
     help='Number of output classes. '
          'For sentiment analysis is 2 (positive and negative)')
 
-FLAGS = parser.parse_args()
+parser.add_argument(
+    '--use_canned_estimator', type=bool, default=False,
+    help='If True the DynamicRNNEstimator will be loaded,'
+         ' otherwise the CustomRNNEstimator will be loaded')
 
+FLAGS = parser.parse_args()
+print(FLAGS)
 
 # create experiment
 def generate_experiment_fn(x_train, y_train, x_test, y_test):
@@ -96,7 +96,7 @@ def generate_experiment_fn(x_train, y_train, x_test, y_test):
     del hparams  # unused arg
 
     # creates estimator
-    if FLAGS.is_canned_estimator:
+    if FLAGS.use_canned_estimator:
       xc = tf.contrib.layers.sparse_column_with_integerized_feature(
           'x',
           FLAGS.num_words)
@@ -114,7 +114,6 @@ def generate_experiment_fn(x_train, y_train, x_test, y_test):
           learning_rate=FLAGS.learning_rate,
           num_classes=FLAGS.num_classes,
           dropout_keep_probabilities=FLAGS.dropout_keep_probabilities)
-
     else:
       model_fn = CustomRNNEstimator(
           rnn_cell_sizes=FLAGS.num_rnn_units,

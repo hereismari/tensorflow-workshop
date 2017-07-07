@@ -78,7 +78,7 @@ def loss_fun(inputs, targets, hprev):
   # this will keep track of the hidden state derivative
   dhnext = np.zeros_like(hs[0])
 
-  # backprop into y. 
+  # backprop into y.
   # see http://cs231n.github.io/neural-networks-case-study/#grad
   # for more info
 
@@ -127,15 +127,15 @@ def loss_fun(inputs, targets, hprev):
     dhraw = (1 - hs[t] * hs[t]) * dh
 
     # dbh[t] = dhraw * (dB/dbh) = dhraw * 1
-    dbh += dhraw 
+    dbh += dhraw
     # dWxh[t] = dhraw * (dB/dWxh) = dhraw * xs[t]
     dWxh += np.dot(dhraw, xs[t].T)
     # dbh[t] = dhraw * (dB/dWhh) = dhraw * hs[t-1]
     dWhh += np.dot(dhraw, hs[t-1].T)
 
-	  # this keeps track of the horizontal gradient
-	  # which is the derivative of the next state
-	  # dhnext[t] = dhraw * (dB/dhs[t]) = dhraw * Whh
+    # this keeps track of the horizontal gradient
+    # which is the derivative of the next state
+    # dhnext[t] = dhraw * (dB/dhs[t]) = dhraw * Whh
     dhnext = np.dot(Whh.T, dhraw)
 
   # clip values between [-5, 5] to mitigate exploding gradients
