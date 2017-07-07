@@ -5,20 +5,25 @@ from __future__ import print_function
 import argparse
 
 from input_functions import get_input_fn
+from models import get_model_fn as CustomRNNEstimator
 import tensorflow as tf
 from tensorflow.contrib.keras.python.keras.datasets import imdb
 from tensorflow.contrib.learn.python.learn import learn_runner
 from tensorflow.contrib.learn.python.learn.estimators import constants
 from tensorflow.contrib.learn.python.learn.estimators.dynamic_rnn_estimator import PredictionType
 
-print('TensorFlow version', tf.__version__)
-
+from input_functions import get_input_fn
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    '--model_dir', type=str, default='sentiment_analysis_output',
-    help='The directory where the model outputs should be stored')
+    'model_dir', type=str,
+    help='The directory where the checkpoints for the model are stored')
+
+parser.add_argument(
+    'is_canned_estimator', type=bool, default=True,
+    help='If True the DynamicRNNEstimator will be loaded,'
+         ' otherwise the CustomRNNEstimator will be loaded')
 
 parser.add_argument(
     '--batch_by_seq_len', type=bool, default=False,
@@ -30,12 +35,12 @@ parser.add_argument(
     help='Sentences will be truncated at max_len')
 
 parser.add_argument(
-    '--num_words', type=int, default=1000,
-    help='Only num_words more frequent words will be used for testing')
+    '--index_from', type=int, default=3,
+    help='Index actual words with this index and higher')
 
 parser.add_argument(
-    '--train_batch_size', type=int, default=16,
-    help='Batch size used for training')
+    '--num_words', type=int, default=1000,
+    help='Only num_words more frequent words will be used for testing')
 
 parser.add_argument(
     '--eval_batch_size', type=int, default=16,
@@ -66,6 +71,10 @@ parser.add_argument(
     help='Size of the hidden state for each RNN cell')
 
 parser.add_argument(
+    '--num_dnn_units', nargs='+', type=int, default=[],
+    help='Size of the hidden state for each RNN cell')
+
+parser.add_argument(
     '--dropout_keep_probabilities', nargs='+', type=int,
     default=[0.9, 0.9, 0.9],
     help='Dropout probabilities to keep the cell. '
@@ -79,13 +88,38 @@ parser.add_argument(
 FLAGS = parser.parse_args()
 
 
-# create experiment
-def generate_experiment_fn(x_train, y_train, x_test, y_test):
+def _load_map_dicts():
+  word_to_id = imdb.get_word_index()
+  word_to_id = {k: (v + FLAGS.index_from) for k, v in word_to_id.items()}
 
-  def _experiment_fn(run_config, hparams):
-    del hparams  # unused arg
+  word_to_id["<PAD>"] = 0
+  word_to_id["<START>"] = 1
+  word_to_id["<UNK>"] = 2
 
-    # feature sequences
+  id_to_word = {value: key for key, value in word_to_id.items()}
+
+  return word_to_id, id_to_word
+
+
+def _ids_to_sentence(sequence):
+  return ' '.join(id_to_word[id] for id in sequence)
+
+
+def main(unused_argv):
+
+  # loading data
+  (x_train, y_train), (x_test, y_test) = imdb.load_data(maxlen=FLAGS.max_len,
+                                                        num_words=FLAGS.num_words,
+                                                        index_from=FLAGS.index_from)
+
+  # loading map from word to index and index to word
+  word_to_index, index_to_word = _load_map_dicts()
+
+  # run config
+  run_config = tf.contrib.learn.RunConfig(model_dir=FLAGS.model_dir)
+
+  # loading estimators
+  if FLAGS.is_canned_estimator:
     xc = tf.contrib.layers.sparse_column_with_integerized_feature(
         'x',
         FLAGS.num_words)
@@ -105,45 +139,28 @@ def generate_experiment_fn(x_train, y_train, x_test, y_test):
         num_classes=FLAGS.num_classes,
         dropout_keep_probabilities=FLAGS.dropout_keep_probabilities)
 
-    # input functions
-    train_input = get_input_fn(x_train, y_train, FLAGS.train_batch_size,
-                               epochs=FLAGS.num_epochs,
-                               max_length=FLAGS.max_len,
-                               batch_by_seq_len=FLAGS.batch_by_seq_len)
-    test_input = get_input_fn(x_test, y_test, FLAGS.eval_batch_size,
-                              epochs=1,
-                              max_length=FLAGS.max_len)
+  else:
+    model_fn = CustomRNNEstimator(
+        rnn_cell_sizes=FLAGS.num_rnn_units,
+        label_dimension=FLAGS.num_classes,
+        num_words=FLAGS.num_words,
+        dnn_layer_sizes=FLAGS.num_dnn_units,
+        optimizer=FLAGS.optimizer,
+        learning_rate=FLAGS.learning_rate,
+        embed_dim=FLAGS.embed_dim)
 
-    # returns Experiment
-    return tf.contrib.learn.Experiment(
-        estimator,
-        train_input_fn=train_input,
-        eval_input_fn=test_input,
-    )
+  # getting test input_function
+  test_input = get_input_fn(x_test, y_test, FLAGS.eval_batch_size,
+                            epochs=1,
+                            max_length=FLAGS.max_len,
+                            shuffle=False)
 
-  return _experiment_fn
+  predictions = list(estimator.predict(input_fn=test_input))
 
-
-def main(unused_argv):
-  # Loading the data
-  # data from: https://keras.io/datasets/
-  # Dataset of 25,000 movies reviews from IMDB, labeled by sentiment
-  # (positive/negative).
-  # Reviews have been preprocessed, and each review is encoded as a sequence
-  # of word indexes (integers).
-  # For convenience, words are indexed by overall frequency in the dataset.
-
-  print('Loading data...')
-  (x_train, y_train), (x_test, y_test) = imdb.load_data(
-      num_words=FLAGS.num_words)
-
-  print('size of the train dataset:', x_train.shape[0])
-  print('size of the test dataset:', x_test.shape[0])
-
-  # run experiment
-  run_config = tf.contrib.learn.RunConfig(model_dir=FLAGS.model_dir)
-  learn_runner.run(generate_experiment_fn(x_train, y_train, x_test, y_test),
-                   run_config=run_config)
+  for i in range(5):
+    print(_ids_to_sentence(x_test[i]))
+    print('Prediction:', predictions)
+    print('Label:', y_test[i])
 
 
 if __name__ == '__main__':
