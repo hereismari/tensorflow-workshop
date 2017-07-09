@@ -1,4 +1,4 @@
-# cdnextcon 2017 - 15/07/2017
+# cdnextcon 2017 - 07/15/2017
 
 ## Slides
 
