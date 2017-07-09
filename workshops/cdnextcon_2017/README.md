@@ -6,7 +6,7 @@ WIP
 
 ## Code
 
-* [Canned Estimator example from Effective TensorFlow for Non-Experts from Google IO 2017](goo.gl/0OgXiL)
+* [Canned Estimator example from Effective TensorFlow for Non-Experts from Google IO 2017](https://goo.gl/0OgXiL)
 
 ## Links
 
