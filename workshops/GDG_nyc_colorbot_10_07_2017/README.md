@@ -1,4 +1,4 @@
-# Links and Code samples used at Colorbot Workshop for GDG nyc - 10/07/2017
+# Colorbot Workshop for GDG nyc - 10/07/2017
 
 ## Slides
 
