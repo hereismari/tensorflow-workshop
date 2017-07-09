@@ -1,4 +1,4 @@
-# Colorbot Workshop for GDG nyc - 10/07/2017
+# Colorbot Workshop for GDG nyc - 07/10/2017
 
 ## Slides
 
