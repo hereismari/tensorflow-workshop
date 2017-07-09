@@ -1,4 +1,4 @@
-# Links and Code samples used at codenextcon 2017 - 15/07/2017
+# cdnextcon 2017 - 15/07/2017
 
 ## Slides
 
@@ -8,7 +8,7 @@ WIP
 
 * [Canned Estimator example from Effective TensorFlow for Non-Experts from Google IO 2017](https://goo.gl/0OgXiL)
 
-## Links
+## What's next?
 
 * [TensorFlow tutorials](https://www.tensorflow.org/tutorials)
 
