@@ -17,6 +17,7 @@ For more about distributed tensorflow, go to:
   * [estimators](https://www.tensorflow.org/extend/estimators)
   * [high-performance models](https://www.tensorflow.org/performance/performance_models)
 * Talks:
+  * [Effective TensorFlow for Non-Experts (Google I/O '17)](https://www.youtube.com/watch?v=5DknTFbcGVM&t=625s)
   * [TensroFlow Ecosystem (TensorFlow Dev Summit 2017)](https://www.youtube.com/watch?v=yALzr4A2AzY)
   * [Distributed TensorFlow (TensorFlow Dev Summit 2017)](https://www.youtube.com/watch?v=la_M6bCV91M)
 * Google Cloud ML Engine
