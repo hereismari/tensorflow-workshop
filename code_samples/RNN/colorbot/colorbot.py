@@ -136,10 +136,10 @@ def get_model_fn(rnn_cell_sizes,
 
     # ---------- RNN -------------------
     # Each RNN layer will consist of a LSTM cell
-    rnn_layers = [tf.contrib.rnn.LSTMCell(size) for size in rnn_cell_sizes]
+    rnn_layers = [tf.nn.rnn_cell.LSTMCell(size) for size in rnn_cell_sizes]
 
     # Construct the layers
-    multi_rnn_cell = tf.contrib.rnn.MultiRNNCell(rnn_layers)
+    multi_rnn_cell = tf.nn.rnn_cell.MultiRNNCell(rnn_layers)
 
     # Runs the RNN model dynamically
     # more about it at:
@@ -166,10 +166,10 @@ def get_model_fn(rnn_cell_sizes,
     loss = None
     train_op = None
 
-    if mode != tf.contrib.learn.ModeKeys.INFER:
+    if mode != tf.estimator.ModeKeys.PREDICT:
       loss = tf.losses.mean_squared_error(labels, predictions)
 
-    if mode == tf.contrib.learn.ModeKeys.TRAIN:
+    if mode == tf.estimator.ModeKeys.TRAIN:
       train_op = tf.contrib.layers.optimize_loss(
           loss,
           tf.contrib.framework.get_global_step(),

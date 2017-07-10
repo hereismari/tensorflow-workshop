@@ -32,7 +32,7 @@ def get_model_fn(rnn_cell_sizes,
     # Each RNN layer will consist of a LSTM cell
     if len(dropout_keep_probabilities) == len(rnn_cell_sizes):
 
-      if mode != tf.contrib.learn.ModeKeys.TRAIN:
+      if mode != tf.estimator.ModeKeys.TRAIN:
         rnn_layers = [
             rnn.DropoutWrapper(rnn.LSTMCell(size),
                                input_keep_prob=1,
@@ -79,7 +79,7 @@ def get_model_fn(rnn_cell_sizes,
     train_op = None
     eval_op = None
 
-    if mode != tf.contrib.learn.ModeKeys.INFER:
+    if mode != tf.estimator.ModeKeys.PREDICT:
       labels_onehot = tf.one_hot(labels, 2)
 
       eval_op = {
@@ -90,7 +90,7 @@ def get_model_fn(rnn_cell_sizes,
 
       loss = tf.losses.softmax_cross_entropy(labels_onehot, predictions)
 
-    if mode == tf.contrib.learn.ModeKeys.TRAIN:
+    if mode == tf.estimator.ModeKeys.TRAIN:
       train_op = tf.contrib.layers.optimize_loss(
           loss,
           tf.contrib.framework.get_global_step(),

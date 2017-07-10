@@ -53,9 +53,9 @@ to_csv('train.csv', 10000)  # 10000 sequences
 to_csv('valid.csv',  50)
 
 # -------- read data and convert to needed format -----------
-def read_dataset(filename, mode=tf.contrib.learn.ModeKeys.TRAIN):  
+def read_dataset(filename, mode=tf.estimator.ModeKeys.TRAIN):  
   def _input_fn():
-    num_epochs = 100 if mode == tf.contrib.learn.ModeKeys.TRAIN else 1
+    num_epochs = 100 if mode == tf.estimator.ModeKeys.TRAIN else 1
 
     # could be a path to one file or a file pattern.
     input_file_names = tf.train.match_filenames_once(filename)
@@ -83,13 +83,13 @@ def read_dataset(filename, mode=tf.contrib.learn.ModeKeys.TRAIN):
   return _input_fn
 
 def get_train():
-  return read_dataset('train.csv', mode=tf.contrib.learn.ModeKeys.TRAIN)
+  return read_dataset('train.csv', mode=tf.estimator.ModeKeys.TRAIN)
 
 def get_valid():
-  return read_dataset('valid.csv', mode=tf.contrib.learn.ModeKeys.EVAL)
+  return read_dataset('valid.csv', mode=tf.estimator.ModeKeys.EVAL)
 
 def get_test():
-  return read_dataset('test.csv', mode=tf.contrib.learn.ModeKeys.EVAL)
+  return read_dataset('test.csv', mode=tf.estimator.ModeKeys.EVAL)
 
 # RNN Model
 LSTM_SIZE = 3  # number of hidden layers in each of the LSTM cells

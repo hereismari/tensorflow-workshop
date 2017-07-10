@@ -33,7 +33,7 @@ def model_fn(features, targets, mode, params):
     train_op = None
     
     # Calculate Loss (for both TRAIN and EVAL modes)
-    if mode != learn.ModeKeys.INFER:
+    if mode != learn.ModeKeys.PREDICT:
         loss = tf.losses.softmax_cross_entropy(
             onehot_labels=targets, logits=preds)
 
