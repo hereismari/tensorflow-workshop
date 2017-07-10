@@ -1,3 +1,5 @@
+code_samples/RNN/sentiment_analysis/samples/canned/
+code_samples/RNN/sentiment_analysis/samples/custom/
 code_samples/RNN/sentiment_analysis/word*
 code_samples/RNN/colorbot/pretrained_data/*
 code_samples/RNN/sentiment_analysis/ids_matrix*
