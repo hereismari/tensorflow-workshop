@@ -127,7 +127,6 @@ def get_model_fn(rnn_cell_sizes,
 
     # ----------- Preparing input --------------------
     # Creating a tf constant to hold the map char -> index
-    # this is need to create the sparse tensor and after the one hot encode
     mapping = tf.constant(CHARACTERS, name='mapping')
     table = tf.contrib.lookup.index_table_from_tensor(mapping, dtype=tf.string)
     int_color_name = table.lookup(color_name)
