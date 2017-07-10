@@ -7,6 +7,7 @@ WIP
 ## Code
 
 * [Canned Estimator example from Effective TensorFlow for Non-Experts from Google IO 2017](https://goo.gl/0OgXiL)
+* [Full example using: tf.layers, tf.estimator, tf.Experiment, numpy_input_fn and tf.Dataset](../../code_samples/MNIST_Estimators/full_example.py)
 
 ## What's next?
 
