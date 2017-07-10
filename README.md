@@ -1,5 +1,4 @@
-# TensorFlow-Workshop [WIP]
-
+# TensorFlow-Workshop
 
 # Pre-work
 
