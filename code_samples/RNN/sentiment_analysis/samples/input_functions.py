@@ -12,7 +12,6 @@ def get_input_fn(x_in, y_in, batch_size,
                  shuffle=True, epochs=1, max_length=250,
                  batch_by_seq_len=False):
 
-
   def _length_bin(length, max_seq_len, length_step=10):
     # This function sets the sequence-length bin,
     # the returned value is the length of the longest

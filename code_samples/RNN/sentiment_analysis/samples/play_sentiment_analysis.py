@@ -96,7 +96,7 @@ def _load_map_dicts():
   return word_to_id, id_to_word
 
 
-def _ids_to_sentence(sequence):
+def _ids_to_sentence(sequence, id_to_word):
   return ' '.join(id_to_word[id] for id in sequence)
 
 
@@ -111,7 +111,7 @@ def main(unused_argv):
   word_to_index, index_to_word = _load_map_dicts()
 
   # run config
-  run_config = tf.contrib.learn.RunConfig(model_dir=FLAGS.model_dir)
+  run_config = tf.estimator.RunConfig()
 
   # loading estimators
   if FLAGS.use_canned_estimator:
@@ -123,6 +123,7 @@ def main(unused_argv):
     # creates estimator
     estimator = tf.contrib.learn.DynamicRnnEstimator(
         config=run_config,
+        model_dir=FLAGS.model_dir,
         problem_type=constants.ProblemType.CLASSIFICATION,
         prediction_type=PredictionType.SINGLE_VALUE,
         sequence_feature_columns=[xc],
@@ -144,6 +145,7 @@ def main(unused_argv):
         learning_rate=FLAGS.learning_rate,
         embed_dim=FLAGS.embed_dim)
     estimator = tf.estimator.Estimator(model_fn=model_fn,
+                                       model_dir=FLAGS.model_dir,
                                        config=run_config)
 
   # getting test input_function
@@ -155,7 +157,7 @@ def main(unused_argv):
   predictions = list(estimator.predict(input_fn=test_input))
 
   for i in range(5):
-    print(_ids_to_sentence(x_test[i]))
+    print(_ids_to_sentence(x_test[i], index_to_word))
     print('Prediction:', predictions[i])
     print('Label:', y_test[i])
 
