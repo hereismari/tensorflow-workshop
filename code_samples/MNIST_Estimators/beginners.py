@@ -2,7 +2,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
 import tensorflow as tf
 print('Use TensorFlow version 1.2 or higher')
 print('TensorFlow Version:', tf.__version__)
@@ -20,6 +19,7 @@ tf.logging.set_verbosity(tf.logging.INFO)
 BATCH_SIZE = 128
 STEPS = 1000
 
+
 def model_fn(features, labels, mode):
   # Logits layer
   # Input Tensor Shape: [batch_size, 1024]
@@ -29,8 +29,8 @@ def model_fn(features, labels, mode):
   # Generate Predictions
   classes = tf.argmax(input=logits, axis=1)
   predictions = {
-			'classes': classes,
-			'probabilities': tf.nn.softmax(logits, name='softmax_tensor')
+      'classes': classes,
+      'probabilities': tf.nn.softmax(logits, name='softmax_tensor')
   }
 
   if mode == tf.estimator.ModeKeys.PREDICT:
@@ -52,9 +52,9 @@ def model_fn(features, labels, mode):
 
   # Configure the accuracy metric for evaluation
   eval_metric_ops = {
-      "accuracy": tf.metrics.accuracy(
-											tf.argmax(input=logits, axis=1),
-											tf.argmax(input=labels, axis=1))
+      'accuracy': tf.metrics.accuracy(
+          tf.argmax(input=logits, axis=1),
+          tf.argmax(input=labels, axis=1))
   }
 
   return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions,
@@ -62,7 +62,7 @@ def model_fn(features, labels, mode):
 
 
 # Import the MNIST dataset
-mnist = input_data.read_data_sets("/tmp/MNIST/", one_hot=True)
+mnist = input_data.read_data_sets('/tmp/MNIST/', one_hot=True)
 
 x_train = mnist.train.images
 y_train = mnist.train.labels
@@ -70,29 +70,30 @@ x_test = mnist.test.images
 y_test = mnist.test.labels
 
 # Input functions
-x_train_dict = {'x': x_train }
+x_train_dict = {'x': x_train}
 train_input_fn = tf.estimator.inputs.numpy_input_fn(
-      x_train_dict, y_train, batch_size=BATCH_SIZE, 
-       shuffle=True, num_epochs=None, 
-        queue_capacity=1000, num_threads=1)
+    x_train_dict, y_train, batch_size=BATCH_SIZE,
+    shuffle=True, num_epochs=None, 
+    queue_capacity=1000, num_threads=1)
 
-x_test_dict = {'x': x_test }	
+x_test_dict = {'x': x_test}
 test_input_fn = tf.estimator.inputs.numpy_input_fn(
-      x_test_dict, y_test, batch_size=BATCH_SIZE,
-      shuffle=False, num_epochs=1)
+    x_test_dict, y_test, batch_size=BATCH_SIZE,
+    shuffle=False, num_epochs=1)
+
 
 # create experiment
 def experiment_fn(run_config, hparams):
-    # create estimator
-    estimator = tf.estimator.Estimator(model_fn=model_fn,
-                                       config=run_config)
-    return tf.contrib.learn.Experiment(
-        estimator,
-        train_input_fn=train_input_fn,
-        eval_input_fn=test_input_fn,
-        train_steps=STEPS
-    )
+  # create estimator
+  estimator = tf.estimator.Estimator(model_fn=model_fn,
+                                     config=run_config)
+  return tf.contrib.learn.Experiment(
+      estimator,
+      train_input_fn=train_input_fn,
+      eval_input_fn=test_input_fn,
+      train_steps=STEPS
+  )
 
-# run experiment 
+# run experiment
 learn_runner.run(experiment_fn,
-             run_config=tf.contrib.learn.RunConfig(model_dir='pros'))
+                 run_config=tf.contrib.learn.RunConfig(model_dir='pros'))

@@ -2,7 +2,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
 import tensorflow as tf
 print('Use TensorFlow version 1.2 or higher')
 print('TensorFlow Version:', tf.__version__)
@@ -19,6 +18,7 @@ tf.logging.set_verbosity(tf.logging.INFO)
 # Parameters
 BATCH_SIZE = 128
 STEPS = 1000
+
 
 def dataset_input_fn(features, labels, num_epochs=100, buffer_size=10000):
   def input_fn():
@@ -41,34 +41,33 @@ def model_fn(features, labels, mode):
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
   logits = tf.layers.dense(inputs=features['x'], units=10)
- 
+
   '''
   input_layer = tf.reshape(features['x'], [-1, 28, 28, 1])
 
-
-	conv1 = tf.layers.conv2d(inputs=input_layer,filters=32, kernel_size=[5, 5],
+  conv1 = tf.layers.conv2d(inputs=input_layer,filters=32, kernel_size=[5, 5],
                            padding='same', activation=tf.nn.relu)
-	pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
-  
+  pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
+
   conv2 = tf.layers.conv2d(inputs=input_layer,filters=64, kernel_size=[5, 5],
                            padding='same', activation=tf.nn.relu)
-	pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
+  pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
-	pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
+  pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
 
-	dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
-	
+  dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
+
   is_training_mode = mode == tf.estimator.ModeKeys.TRAIN
-	dropout = tf.layers.dropout(inputs=dense, rate=0.4, training=is_training_mode)
-	
+  dropout = tf.layers.dropout(inputs=dense, rate=0.4, training=is_training_mode)
+
   logits = tf.layers.dense(inputs=dropout, units=10)
   '''
 
   # Generate Predictions
   classes = tf.argmax(input=logits, axis=1)
   predictions = {
-			'classes': classes,
-			'probabilities': tf.nn.softmax(logits, name='softmax_tensor')
+      'classes': classes,
+      'probabilities': tf.nn.softmax(logits, name='softmax_tensor')
   }
 
   if mode == tf.estimator.ModeKeys.PREDICT:
@@ -90,9 +89,9 @@ def model_fn(features, labels, mode):
 
   # Configure the accuracy metric for evaluation
   eval_metric_ops = {
-      "accuracy": tf.metrics.accuracy(
-											tf.argmax(input=logits, axis=1),
-											tf.argmax(input=labels, axis=1))
+      'accuracy': tf.metrics.accuracy(
+          tf.argmax(input=logits, axis=1),
+          tf.argmax(input=labels, axis=1))
   }
 
   return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions,
@@ -100,7 +99,7 @@ def model_fn(features, labels, mode):
 
 
 # Import the MNIST dataset
-mnist = input_data.read_data_sets("/tmp/MNIST/", one_hot=True)
+mnist = input_data.read_data_sets('/tmp/MNIST/', one_hot=True)
 
 x_train = mnist.train.images
 y_train = mnist.train.labels
@@ -110,10 +109,10 @@ y_test = mnist.test.labels
 # Input functions
 train_input_fn = dataset_input_fn(x_train, y_train)
 
-x_test_dict = {'x': x_test }	
+x_test_dict = {'x': x_test}
 test_input_fn = tf.estimator.inputs.numpy_input_fn(
-		x_test_dict, y_test, batch_size=BATCH_SIZE,
-		shuffle=False, num_epochs=1)
+    x_test_dict, y_test, batch_size=BATCH_SIZE,
+    shuffle=False, num_epochs=1)
 
 # create estimator
 run_config = tf.contrib.learn.RunConfig(model_dir='/tmp/pros')
@@ -141,7 +140,7 @@ def experiment_fn(run_config, hparams):
       train_steps=STEPS
   )
 
-# run experiment 
+# run experiment
 learn_runner.run(experiment_fn,
-		run_config=run_config)
+    run_config=run_config)
 '''
