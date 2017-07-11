@@ -6,6 +6,7 @@ WIP
 
 ## Code
 
+* [colorbot zip](https://goo.gl/As83Le)
 * [colorbot](../../code_samples/RNN/colorbot/)
 
 ## What's next?
