@@ -6,9 +6,11 @@ WIP
 
 ## Code
 
+* [Walk through: full examples using TensorFlow high-level API](https://goo.gl/DBeUkN)
 * [Canned Estimator example from Effective TensorFlow for Non-Experts from Google IO 2017](https://goo.gl/0OgXiL)
-* [Full example using: tf.layers, tf.estimator, tf.Experiment, numpy_input_fn and tf.Dataset](../../code_samples/MNIST_Estimators/full_example.py)
-
+* [Full example of a model for MNIST](../../code_samples/MNIST_Estimators/full_example.py)
+   * It helps get started with: tf.layers, tf.estimator, tf.Experiment, numpy_input_fn and tf.Dataset!!
+   
 ## What's next?
 
 * [TensorFlow tutorials](https://www.tensorflow.org/tutorials)
@@ -19,5 +21,7 @@ WIP
 
 * [From Research to Production with TensorFlow Serving (Google I/O '17)](https://www.youtube.com/watch?v=sqYdlSF0BI8)
 
-* [distributed tensorflow](https://www.tensorflow.org/deploy/distributed)
+* [Distributed tensorflow](https://www.tensorflow.org/deploy/distributed)
+
+* [Datasets API]()
 
