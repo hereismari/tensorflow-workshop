@@ -23,5 +23,5 @@ WIP
 
 * [Distributed tensorflow](https://www.tensorflow.org/deploy/distributed)
 
-* [Datasets API]()
+* [Datasets API](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/docs_src/programmers_guide/datasets.md)
 
