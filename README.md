@@ -6,29 +6,7 @@ Please follow the instructions bellow before attending to the workshop.
 
 ## Install TensorFlow
 
-For this workshop, you may either install TensorFlow directly on your laptop, or use a Docker container running either locally, or on a Cloud-based VM. Please choose the option below that's right for you.
-
-#### Option 1: Install TensorFlow directly on your laptop
-This approach is recommended if you prefer the smallest download.
-
-1. [Install TensorFlow on Mac using a Virtual Environment.](setup/install-mac.md) 
-
-1. [Install TensorFlow on Windows.](setup/install-win.md)
-
-1. [Install TensorFlow on Ubuntu/Linux using a Virtual Environment.](setup/install-ubuntu.md)
-
-If you're an experienced developer, you can find a pip requirements file [here](setup/requirements.txt).
-
-#### Option 2: Install TensorFlow using Docker
-
-This approach is a good option if you have difficulty installing TensorFlow directly.
-
-1. [Run the TensorFlow Docker image on your laptop.](setup/install-docker.md)
-
-1. [Run the TensorFlow Docker image on a Cloud-based VM.](setup/install-cloud.md) This is a good option if you have difficulty using Docker on your laptop.
-
----
-If you get stuck, please refer to the full installation [instructions](https://www.tensorflow.org/install/) on tensorflow.org.
+https://www.tensorflow.org/install/
 
 ## Install other Dependencies
 
@@ -50,7 +28,7 @@ if you don't pass it it will install the dependencies for both versions of Pytho
 
 # Want to report a bug?
 
-Thanks! Can you please file an issue. We'll be doing this workshop a couple times, and future developers will appreciate your help.
+Thanks! Can you please file an issue? We'll be doing this samples for a couple times, and future developers will appreciate your help.
 
 - - -
 
