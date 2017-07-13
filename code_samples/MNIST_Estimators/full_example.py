@@ -37,19 +37,19 @@ def dataset_input_fn(features, labels, num_epochs=100, buffer_size=10000):
 
 
 def model_fn(features, labels, mode):
+  '''
   # Logits layer
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
   logits = tf.layers.dense(inputs=features['x'], units=10)
-
-  '''
+'''
   input_layer = tf.reshape(features['x'], [-1, 28, 28, 1])
 
   conv1 = tf.layers.conv2d(inputs=input_layer,filters=32, kernel_size=[5, 5],
                            padding='same', activation=tf.nn.relu)
   pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
 
-  conv2 = tf.layers.conv2d(inputs=input_layer,filters=64, kernel_size=[5, 5],
+  conv2 = tf.layers.conv2d(inputs=pool1,filters=64, kernel_size=[5, 5],
                            padding='same', activation=tf.nn.relu)
   pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
@@ -61,7 +61,6 @@ def model_fn(features, labels, mode):
   dropout = tf.layers.dropout(inputs=dense, rate=0.4, training=is_training_mode)
 
   logits = tf.layers.dense(inputs=dropout, units=10)
-  '''
 
   # Generate Predictions
   classes = tf.argmax(input=logits, axis=1)
@@ -115,7 +114,7 @@ test_input_fn = tf.estimator.inputs.numpy_input_fn(
     shuffle=False, num_epochs=1)
 
 # create estimator
-run_config = tf.contrib.learn.RunConfig(model_dir='/tmp/pros')
+run_config = tf.contrib.learn.RunConfig(model_dir='mnist')
 estimator = tf.estimator.Estimator(model_fn=model_fn, config=run_config)
 
 # train for 10000 steps
