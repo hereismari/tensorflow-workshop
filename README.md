@@ -28,7 +28,7 @@ if you don't pass it it will install the dependencies for both versions of Pytho
 
 # Want to report a bug?
 
-Thanks! Can you please file an issue. We'll be doing this workshop a couple times, and future developers will appreciate your help.
+Thanks! Can you please file an issue? We'll be doing this samples for a couple times, and future developers will appreciate your help.
 
 - - -
 
