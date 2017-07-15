@@ -27,3 +27,4 @@ WIP
 * [Datasets API](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/docs_src/programmers_guide/datasets.md)
 
 * [TensorFlow for poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/#0)
+* [TensorFlow for poets 2](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets-2/#0)
