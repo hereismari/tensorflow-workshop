@@ -28,3 +28,15 @@ WIP
 
 * [TensorFlow for poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/#0)
 * [TensorFlow for poets 2](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets-2/#0)
+
+### Many OpenSource Models
+
+* [Neural Audio Synthesis, Music Generation](magenta.tensorflow.org)
+* [Sequence to Sequence](research.googleblog.com/2017/04/introducing-tf-seq2seq-open-source.html)
+* [Parsey McParseface](research.googleblog.com/2016/05/announcing-syntaxnet-worlds-most.html)
+* [Show and Tell](research.googleblog.com/2016/09/show-and-tell-image-captioning-open.html)
+* [TextSummarization](research.googleblog.com/2016/08/text-summarization-with-tensorflow.html)
+* [Improving Inception](research.googleblog.com/2016/08/improving-inception-and-image.html)
+* [Parsey Saurus](research.googleblog.com/2017/03/an-upgrade-to-syntaxnet-new-models-and.html)
+* [Parsey’s Cousins](research.googleblog.com/2016/08/meet-parseys-cousins-syntax-for-40.html)
+* [Supercharging Style Transfer](research.googleblog.com/2016/10/supercharging-style-transfer.html)
