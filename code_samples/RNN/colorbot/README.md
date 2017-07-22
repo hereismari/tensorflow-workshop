@@ -16,6 +16,10 @@ Colorbot is a RNN model that receives a word (sequence of characters) as input a
 
 See ColorBot in action running: *python play_colorbot.py*
 
+### Keras implementation
+
+You can check a great and simple Keras implementation of this exact same model [here](https://github.com/random-forests/tensorflow-workshop/blob/master/extras/colorbot-keras.ipynb)!
+
 ## About the model
 
 Here's a diagram of the model used.
