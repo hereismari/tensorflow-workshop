@@ -111,7 +111,7 @@ while True:
   start_index = p
   end_index = p + SEQ_LENGTH
 
-  input_vals = [char_to_ix[ch] for ch in data[start_index: end_idex]]
+  input_vals = [char_to_ix[ch] for ch in data[start_index: end_index]]
   input_vals = np.reshape(input_vals, (-1, SEQ_LENGTH))
 
   target_vals = [char_to_ix[ch] for ch in data[start_index + 1: end_index+ 1]]
