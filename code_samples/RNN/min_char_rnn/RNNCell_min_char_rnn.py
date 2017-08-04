@@ -49,7 +49,8 @@ input_y = tf.one_hot(targets, VOCAB_SIZE)
 rnn_cell = tf.nn.rnn_cell.BasicRNNCell(HIDDEN_SIZE)
 
 # run RNN
-# rnn_outputs: [ BATCH_SIZE, SEQ_LEN, VOCAB_SIZE]
+# rnn_outputs: [ BATCH_SIZE, SEQ_LEN, HIDDEN_SIZE]
+# final_state: [ BATCH_SIZE, HIDDEN_SIZE]
 rnn_outputs, final_state = tf.nn.dynamic_rnn(rnn_cell, input_x,
                                              initial_state=init_state,
                                              dtype=tf.float32)
