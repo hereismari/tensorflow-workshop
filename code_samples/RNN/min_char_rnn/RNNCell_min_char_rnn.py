@@ -13,10 +13,6 @@ from tensorflow.contrib import layers
 
 print(tf.__version__)
 
-# helper functions
-def one_hot(v):
-  return np.eye(VOCAB_SIZE)[v]
-
 # data I/O
 
 # should be simple plain text file
