@@ -72,7 +72,7 @@ minimizer = optimizer.minimize(loss)
 
 # Gradient clipping
 # In this code we're not using gradient clipping, just to make things simpler
-# but if you want to use it, the code bellow implements it.
+# but if you want to use it, the code below implements it.
 '''
 grads_and_vars = minimizer.compute_gradients(loss)
 
