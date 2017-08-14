@@ -47,6 +47,10 @@ input_y = tf.one_hot(targets, VOCAB_SIZE)
 
 # creating a RNN cell
 rnn_cell = tf.nn.rnn_cell.BasicRNNCell(HIDDEN_SIZE)
+# you can use a GRUCell by changing one line of code
+'''
+rnn_cell = tf.nn.rnn_cell.GRUCell(HIDDEN_SIZE)
+'''
 
 # run RNN
 # rnn_outputs: [ BATCH_SIZE, SEQ_LEN, HIDDEN_SIZE]
