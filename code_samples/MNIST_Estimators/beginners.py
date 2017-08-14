@@ -73,7 +73,7 @@ y_test = mnist.test.labels
 x_train_dict = {'x': x_train}
 train_input_fn = tf.estimator.inputs.numpy_input_fn(
     x_train_dict, y_train, batch_size=BATCH_SIZE,
-    shuffle=True, num_epochs=None, 
+    shuffle=True, num_epochs=None,
     queue_capacity=1000, num_threads=1)
 
 x_test_dict = {'x': x_test}
@@ -84,6 +84,7 @@ test_input_fn = tf.estimator.inputs.numpy_input_fn(
 
 # create experiment
 def experiment_fn(run_config, hparams):
+  del hparams  # unused arg
   # create estimator
   estimator = tf.estimator.Estimator(model_fn=model_fn,
                                      config=run_config)
@@ -96,4 +97,4 @@ def experiment_fn(run_config, hparams):
 
 # run experiment
 learn_runner.run(experiment_fn,
-                 run_config=tf.contrib.learn.RunConfig(model_dir='pros'))
+                 run_config=tf.contrib.learn.RunConfig(model_dir='beginners_output'))

@@ -37,19 +37,14 @@ def dataset_input_fn(features, labels, num_epochs=100, buffer_size=10000):
 
 
 def model_fn(features, labels, mode):
-  '''
-  # Logits layer
-  # Input Tensor Shape: [batch_size, 1024]
-  # Output Tensor Shape: [batch_size, 10]
-  logits = tf.layers.dense(inputs=features['x'], units=10)
-'''
+
   input_layer = tf.reshape(features['x'], [-1, 28, 28, 1])
 
-  conv1 = tf.layers.conv2d(inputs=input_layer,filters=32, kernel_size=[5, 5],
+  conv1 = tf.layers.conv2d(inputs=input_layer, filters=32, kernel_size=[5, 5],
                            padding='same', activation=tf.nn.relu)
   pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
 
-  conv2 = tf.layers.conv2d(inputs=pool1,filters=64, kernel_size=[5, 5],
+  conv2 = tf.layers.conv2d(inputs=pool1, filters=64, kernel_size=[5, 5],
                            padding='same', activation=tf.nn.relu)
   pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
@@ -62,7 +57,6 @@ def model_fn(features, labels, mode):
 
   logits = tf.layers.dense(inputs=dropout, units=10)
 
-  # Generate Predictions
   classes = tf.argmax(input=logits, axis=1)
   predictions = {
       'classes': classes,
@@ -70,12 +64,10 @@ def model_fn(features, labels, mode):
   }
 
   if mode == tf.estimator.ModeKeys.PREDICT:
-    # Return an EstimatorSpec object
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
   loss = tf.losses.softmax_cross_entropy(onehot_labels=labels, logits=logits)
 
-  # Configure the Training Op (for TRAIN mode)
   if mode == tf.estimator.ModeKeys.TRAIN:
     train_op = tf.contrib.layers.optimize_loss(
         loss=loss,
@@ -86,7 +78,6 @@ def model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions,
                                       loss=loss, train_op=train_op)
 
-  # Configure the accuracy metric for evaluation
   eval_metric_ops = {
       'accuracy': tf.metrics.accuracy(
           tf.argmax(input=logits, axis=1),
