@@ -1,2 +1,2 @@
-## Auxiliar code to run multi-GPU code
+## Helper scripts when running multi-gpu TensorFlow
 
